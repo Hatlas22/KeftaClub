@@ -1,2 +1,2 @@
 # KeftaClub
-Le site ou tu parages ta bouffe
+Le site ou tu partages ta bouffe
