@@ -39,7 +39,7 @@ def index(request):
     new_suggestions_list = [x for x in list(all_users) if (x not in list(user_following_all))]
     current_user = User.objects.filter(username=request.user.username)
     final_suggestions_list = [x for x in list(new_suggestions_list) if ( x not in list(current_user))]
-    random.shuffle(final_suggestions_list)
+    random.shuffle(final_suggestions_list) # ---------- ligne a changer ----------
 
     username_profile = []
     username_profile_list = []
