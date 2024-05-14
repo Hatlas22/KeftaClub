@@ -3244,15 +3244,15 @@ select.uk-form-width-xsmall {
 .uk-search-default .uk-search-icon-flip ~ .uk-search-input {
   padding-right: 40px;
 }
-/* Navbar modifier
+/*  modifier
  ========================================================================== */
-.uk-search-navbar {
+.uk-search- {
   width: 400px;
 }
 /*
  * Input
  */
-.uk-search-navbar .uk-search-input {
+.uk-search- .uk-search-input {
   height: 40px;
   background: transparent;
   font-size: 1.5rem;
@@ -3260,13 +3260,13 @@ select.uk-form-width-xsmall {
 /*
  * Icon
  */
-.uk-search-navbar .uk-search-icon {
+.uk-search- .uk-search-icon {
   width: 40px;
 }
-.uk-search-navbar .uk-search-icon:not(.uk-search-icon-flip) ~ .uk-search-input {
+.uk-search- .uk-search-icon:not(.uk-search-icon-flip) ~ .uk-search-input {
   padding-left: 40px;
 }
-.uk-search-navbar .uk-search-icon-flip ~ .uk-search-input {
+.uk-search- .uk-search-icon-flip ~ .uk-search-input {
   padding-right: 40px;
 }
 /* Large modifier
@@ -3490,26 +3490,26 @@ ul.uk-nav-sub {
   position: absolute;
 }
 /* ========================================================================
-   Component: Navbar
+   Component: 
  ========================================================================== */
 /*
- * 1. Create position context to center navbar group
+ * 1. Create position context to center  group
  */
-.uk-navbar {
+.uk- {
   display: flex;
   /* 1 */
   position: relative;
 }
 /* Container
  ========================================================================== */
-.uk-navbar-container:not(.uk-navbar-transparent) {
+.uk--container:not(.uk--transparent) {
   background: #f8f8f8;
 }
 /*
  * Remove pseudo elements created by micro clearfix as precaution (if Container component is used)
  */
-.uk-navbar-container > ::before,
-.uk-navbar-container > ::after {
+.uk--container > ::before,
+.uk--container > ::after {
   display: none !important;
 }
 /* Groups
@@ -3518,33 +3518,33 @@ ul.uk-nav-sub {
  * 1. Align navs and items vertically if they have a different height
  * 2. Note: IE 11 requires an extra `div` which affects the center selector
  */
-.uk-navbar-left,
-.uk-navbar-right,
-.uk-navbar-center,
-.uk-navbar-center-left > *,
-.uk-navbar-center-right > * {
+.uk--left,
+.uk--right,
+.uk--center,
+.uk--center-left > *,
+.uk--center-right > * {
   display: flex;
   /* 1 */
   align-items: center;
 }
 /*
  * Horizontal alignment
- * 1. Create position context for centered navbar with sub groups (left/right)
+ * 1. Create position context for centered  with sub groups (left/right)
  * 2. Fix text wrapping if content is larger than 50% of the container.
  * 3. Needed for dropdowns because a new position context is created
  *    `z-index` must be smaller than off-canvas
- * 4. Align sub groups for centered navbar
+ * 4. Align sub groups for centered 
  */
-.uk-navbar-right {
+.uk--right {
   margin-left: auto;
 }
-.uk-navbar-center:only-child {
+.uk--center:only-child {
   margin-left: auto;
   margin-right: auto;
   /* 1 */
   position: relative;
 }
-.uk-navbar-center:not(:only-child) {
+.uk--center:not(:only-child) {
   position: absolute;
   top: 50%;
   left: 50%;
@@ -3556,18 +3556,18 @@ ul.uk-nav-sub {
   z-index: 990;
 }
 /* 4 */
-.uk-navbar-center-left,
-.uk-navbar-center-right {
+.uk--center-left,
+.uk--center-right {
   position: absolute;
   top: 0;
 }
-.uk-navbar-center-left {
+.uk--center-left {
   right: 100%;
 }
-.uk-navbar-center-right {
+.uk--center-right {
   left: 100%;
 }
-[class*='uk-navbar-center-'] {
+[class*='uk--center-'] {
   width: max-content;
   box-sizing: border-box;
 }
@@ -3576,7 +3576,7 @@ ul.uk-nav-sub {
 /*
  * 1. Reset list
  */
-.uk-navbar-nav {
+.uk--nav {
   display: flex;
   /* 1 */
   margin: 0;
@@ -3587,9 +3587,9 @@ ul.uk-nav-sub {
  * Allow items to wrap into the next line
  * Only not `absolute` positioned groups
  */
-.uk-navbar-left,
-.uk-navbar-right,
-.uk-navbar-center:only-child {
+.uk--left,
+.uk--right,
+.uk--center:only-child {
   flex-wrap: wrap;
 }
 /*
@@ -3599,9 +3599,9 @@ ul.uk-nav-sub {
  * 3. Style
  * 4. Required for `a`
  */
-.uk-navbar-nav > li > a,
-.uk-navbar-item,
-.uk-navbar-toggle {
+.uk--nav > li > a,
+.uk--item,
+.uk--toggle {
   /* 1 */
   display: flex;
   justify-content: center;
@@ -3619,7 +3619,7 @@ ul.uk-nav-sub {
 /*
  * Nav items
  */
-.uk-navbar-nav > li > a {
+.uk--nav > li > a {
   color: #999;
   text-transform: uppercase;
   transition: 0.1s ease-in-out;
@@ -3630,33 +3630,33 @@ ul.uk-nav-sub {
  * Hover
  * Apply hover style also to focus state and if dropdown is opened
  */
-.uk-navbar-nav > li:hover > a,
-.uk-navbar-nav > li > a:focus,
-.uk-navbar-nav > li > a.uk-open {
+.uk--nav > li:hover > a,
+.uk--nav > li > a:focus,
+.uk--nav > li > a.uk-open {
   color: #666;
   outline: none;
 }
 /* OnClick */
-.uk-navbar-nav > li > a:active {
+.uk--nav > li > a:active {
   color: #333;
 }
 /* Active */
-.uk-navbar-nav > li.uk-active > a {
+.uk--nav > li.uk-active > a {
   color: #333;
 }
 /* Item
  ========================================================================== */
-.uk-navbar-item {
+.uk--item {
   color: #666;
 }
 /* Toggle
  ========================================================================== */
-.uk-navbar-toggle {
+.uk--toggle {
   color: #999;
 }
-.uk-navbar-toggle:hover,
-.uk-navbar-toggle:focus,
-.uk-navbar-toggle.uk-open {
+.uk--toggle:hover,
+.uk--toggle:focus,
+.uk--toggle.uk-open {
   color: #666;
   outline: none;
   text-decoration: none;
@@ -3668,7 +3668,7 @@ ul.uk-nav-sub {
 /* Hover + Focus */
 /* Subtitle
  ========================================================================== */
-.uk-navbar-subtitle {
+.uk--subtitle {
   font-size: 0.875rem;
 }
 /* Style modifiers
@@ -3682,7 +3682,7 @@ ul.uk-nav-sub {
  * 3. Set a default width
  * 4. Style
  */
-.uk-navbar-dropdown {
+.uk--dropdown {
   /* 1 */
   display: none;
   /* 2 */
@@ -3698,23 +3698,23 @@ ul.uk-nav-sub {
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
 }
 /* Show */
-.uk-navbar-dropdown.uk-open {
+.uk--dropdown.uk-open {
   display: block;
 }
 /*
  * Direction / Alignment modifiers
  */
 /* Direction */
-[class*='uk-navbar-dropdown-top'] {
+[class*='uk--dropdown-top'] {
   margin-top: -15px;
 }
-[class*='uk-navbar-dropdown-bottom'] {
+[class*='uk--dropdown-bottom'] {
   margin-top: 15px;
 }
-[class*='uk-navbar-dropdown-left'] {
+[class*='uk--dropdown-left'] {
   margin-left: -15px;
 }
-[class*='uk-navbar-dropdown-right'] {
+[class*='uk--dropdown-right'] {
   margin-left: 15px;
 }
 /*
@@ -3722,39 +3722,39 @@ ul.uk-nav-sub {
  * Adopts `uk-grid`
  */
 /* Gutter Horizontal */
-.uk-navbar-dropdown-grid {
+.uk--dropdown-grid {
   margin-left: -50px;
 }
-.uk-navbar-dropdown-grid > * {
+.uk--dropdown-grid > * {
   padding-left: 50px;
 }
 /* Gutter Vertical */
-.uk-navbar-dropdown-grid > .uk-grid-margin {
+.uk--dropdown-grid > .uk-grid-margin {
   margin-top: 50px;
 }
 /* Stack */
-.uk-navbar-dropdown-stack .uk-navbar-dropdown-grid > * {
+.uk--dropdown-stack .uk--dropdown-grid > * {
   width: 100% !important;
 }
 /*
  * Width modifier
  */
-.uk-navbar-dropdown-width-2:not(.uk-navbar-dropdown-stack) {
+.uk--dropdown-width-2:not(.uk--dropdown-stack) {
   width: 400px;
 }
-.uk-navbar-dropdown-width-3:not(.uk-navbar-dropdown-stack) {
+.uk--dropdown-width-3:not(.uk--dropdown-stack) {
   width: 600px;
 }
-.uk-navbar-dropdown-width-4:not(.uk-navbar-dropdown-stack) {
+.uk--dropdown-width-4:not(.uk--dropdown-stack) {
   width: 800px;
 }
-.uk-navbar-dropdown-width-5:not(.uk-navbar-dropdown-stack) {
+.uk--dropdown-width-5:not(.uk--dropdown-stack) {
   width: 1000px;
 }
 /*
  * Dropbar modifier
  */
-.uk-navbar-dropdown-dropbar {
+.uk--dropdown-dropbar {
   margin-top: 0;
   margin-bottom: 0;
   box-shadow: none;
@@ -3762,58 +3762,58 @@ ul.uk-nav-sub {
 /* Dropdown Nav
  * Adopts `uk-nav`
  ========================================================================== */
-.uk-navbar-dropdown-nav {
+.uk--dropdown-nav {
   font-size: 0.875rem;
 }
 /*
  * Items
  */
-.uk-navbar-dropdown-nav > li > a {
+.uk--dropdown-nav > li > a {
   color: #999;
 }
 /* Hover + Focus */
-.uk-navbar-dropdown-nav > li > a:hover,
-.uk-navbar-dropdown-nav > li > a:focus {
+.uk--dropdown-nav > li > a:hover,
+.uk--dropdown-nav > li > a:focus {
   color: #666;
 }
 /* Active */
-.uk-navbar-dropdown-nav > li.uk-active > a {
+.uk--dropdown-nav > li.uk-active > a {
   color: #333;
 }
 /*
  * Header
  */
-.uk-navbar-dropdown-nav .uk-nav-header {
+.uk--dropdown-nav .uk-nav-header {
   color: #333;
 }
 /*
  * Divider
  */
-.uk-navbar-dropdown-nav .uk-nav-divider {
+.uk--dropdown-nav .uk-nav-divider {
   border-top: 1px solid #e5e5e5;
 }
 /*
  * Sublists
  */
-.uk-navbar-dropdown-nav .uk-nav-sub a {
+.uk--dropdown-nav .uk-nav-sub a {
   color: #999;
 }
-.uk-navbar-dropdown-nav .uk-nav-sub a:hover,
-.uk-navbar-dropdown-nav .uk-nav-sub a:focus {
+.uk--dropdown-nav .uk-nav-sub a:hover,
+.uk--dropdown-nav .uk-nav-sub a:focus {
   color: #666;
 }
-.uk-navbar-dropdown-nav .uk-nav-sub li.uk-active > a {
+.uk--dropdown-nav .uk-nav-sub li.uk-active > a {
   color: #333;
 }
 /* Dropbar
  ========================================================================== */
-.uk-navbar-dropbar {
+.uk--dropbar {
   background: #fff;
 }
 /*
  * Slide modifier
  */
-.uk-navbar-dropbar-slide {
+.uk--dropbar-slide {
   position: absolute;
   z-index: 980;
   left: 0;
@@ -3821,22 +3821,22 @@ ul.uk-nav-sub {
   box-shadow: 0 5px 7px rgba(0, 0, 0, 0.05);
 }
 /*
-     * Navbar
+     * 
      */
-.uk-navbar-container > .uk-container .uk-navbar-left {
+.uk--container > .uk-container .uk--left {
   margin-left: -15px;
   margin-right: -15px;
 }
-.uk-navbar-container > .uk-container .uk-navbar-right {
+.uk--container > .uk-container .uk--right {
   margin-right: -15px;
 }
 /*
      * Grid Divider
      */
-.uk-navbar-dropdown-grid > * {
+.uk--dropdown-grid > * {
   position: relative;
 }
-.uk-navbar-dropdown-grid > :not(.uk-first-column)::before {
+.uk--dropdown-grid > :not(.uk-first-column)::before {
   content: "";
   position: absolute;
   top: 0;
@@ -3845,7 +3845,7 @@ ul.uk-nav-sub {
   border-left: 1px solid #e5e5e5;
 }
 /* Vertical */
-.uk-navbar-dropdown-grid.uk-grid-stack > .uk-grid-margin::before {
+.uk--dropdown-grid.uk-grid-stack > .uk-grid-margin::before {
   content: "";
   position: absolute;
   top: -25px;
@@ -5314,7 +5314,7 @@ ul.uk-nav-sub {
  ========================================================================== */
 /*
  * Prepare slide-out animation (Used in reveal and push mode)
- * Using `position: left` instead of `transform` because position `fixed` elements like sticky navbars
+ * Using `position: left` instead of `transform` because position `fixed` elements like sticky s
  * lose their fixed state and behaves like `absolute` within a transformed container
  * 1. Provide a fixed width and prevent shrinking
  */
@@ -10689,17 +10689,17 @@ iframe.uk-cover {
 .uk-offcanvas-bar.uk-light.uk-search-default .uk-search-input:focus {
   background-color: transparent;
 }
-.uk-light .uk-search-navbar .uk-search-input,
-.uk-section-primary:not(.uk-preserve-color) .uk-search-navbar .uk-search-input,
-.uk-section-secondary:not(.uk-preserve-color) .uk-search-navbar .uk-search-input,
-.uk-tile-primary:not(.uk-preserve-color) .uk-search-navbar .uk-search-input,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-search-navbar .uk-search-input,
-.uk-card-primary.uk-card-body .uk-search-navbar .uk-search-input,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-search-navbar .uk-search-input,
-.uk-card-secondary.uk-card-body .uk-search-navbar .uk-search-input,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-search-navbar .uk-search-input,
-.uk-overlay-primary .uk-search-navbar .uk-search-input,
-.uk-offcanvas-bar.uk-light.uk-search-navbar .uk-search-input {
+.uk-light .uk-search- .uk-search-input,
+.uk-section-primary:not(.uk-preserve-color) .uk-search- .uk-search-input,
+.uk-section-secondary:not(.uk-preserve-color) .uk-search- .uk-search-input,
+.uk-tile-primary:not(.uk-preserve-color) .uk-search- .uk-search-input,
+.uk-tile-secondary:not(.uk-preserve-color) .uk-search- .uk-search-input,
+.uk-card-primary.uk-card-body .uk-search- .uk-search-input,
+.uk-card-primary > :not([class*='uk-card-media']) .uk-search- .uk-search-input,
+.uk-card-secondary.uk-card-body .uk-search- .uk-search-input,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk-search- .uk-search-input,
+.uk-overlay-primary .uk-search- .uk-search-input,
+.uk-offcanvas-bar.uk-light.uk-search- .uk-search-input {
   background-color: transparent;
 }
 .uk-light .uk-search-large .uk-search-input,
@@ -11030,139 +11030,139 @@ iframe.uk-cover {
 .uk-offcanvas-bar.uk-light.uk-nav-primary .uk-nav-sub li.uk-active > a {
   color: #fff;
 }
-.uk-light .uk-navbar-nav > li > a,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a,
-.uk-card-primary.uk-card-body .uk-navbar-nav > li > a,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a,
-.uk-card-secondary.uk-card-body .uk-navbar-nav > li > a,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a,
-.uk-overlay-primary .uk-navbar-nav > li > a,
-.uk-offcanvas-bar.uk-light.uk-navbar-nav > li > a {
+.uk-light .uk--nav > li > a,
+.uk-section-primary:not(.uk-preserve-color) .uk--nav > li > a,
+.uk-section-secondary:not(.uk-preserve-color) .uk--nav > li > a,
+.uk-tile-primary:not(.uk-preserve-color) .uk--nav > li > a,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--nav > li > a,
+.uk-card-primary.uk-card-body .uk--nav > li > a,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--nav > li > a,
+.uk-card-secondary.uk-card-body .uk--nav > li > a,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--nav > li > a,
+.uk-overlay-primary .uk--nav > li > a,
+.uk-offcanvas-bar.uk-light.uk--nav > li > a {
   color: rgba(255, 255, 255, 0.5);
 }
-.uk-light .uk-navbar-nav > li:hover > a,
-.uk-light .uk-navbar-nav > li > a:focus,
-.uk-light .uk-navbar-nav > li > a.uk-open,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li:hover > a,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a:focus,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a.uk-open,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-nav > li:hover > a,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a:focus,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a.uk-open,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-nav > li:hover > a,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a:focus,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a.uk-open,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-nav > li:hover > a,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a:focus,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a.uk-open,
-.uk-card-primary.uk-card-body .uk-navbar-nav > li:hover > a,
-.uk-card-primary.uk-card-body .uk-navbar-nav > li > a:focus,
-.uk-card-primary.uk-card-body .uk-navbar-nav > li > a.uk-open,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-nav > li:hover > a,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a:focus,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a.uk-open,
-.uk-card-secondary.uk-card-body .uk-navbar-nav > li:hover > a,
-.uk-card-secondary.uk-card-body .uk-navbar-nav > li > a:focus,
-.uk-card-secondary.uk-card-body .uk-navbar-nav > li > a.uk-open,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-nav > li:hover > a,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a:focus,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a.uk-open,
-.uk-overlay-primary .uk-navbar-nav > li:hover > a,
-.uk-overlay-primary .uk-navbar-nav > li > a:focus,
-.uk-overlay-primary .uk-navbar-nav > li > a.uk-open,
-.uk-offcanvas-bar.uk-light.uk-navbar-nav > li:hover > a,
-.uk-offcanvas-bar.uk-light.uk-navbar-nav > li > a:focus,
-.uk-offcanvas-bar.uk-light.uk-navbar-nav > li > a.uk-open {
+.uk-light .uk--nav > li:hover > a,
+.uk-light .uk--nav > li > a:focus,
+.uk-light .uk--nav > li > a.uk-open,
+.uk-section-primary:not(.uk-preserve-color) .uk--nav > li:hover > a,
+.uk-section-primary:not(.uk-preserve-color) .uk--nav > li > a:focus,
+.uk-section-primary:not(.uk-preserve-color) .uk--nav > li > a.uk-open,
+.uk-section-secondary:not(.uk-preserve-color) .uk--nav > li:hover > a,
+.uk-section-secondary:not(.uk-preserve-color) .uk--nav > li > a:focus,
+.uk-section-secondary:not(.uk-preserve-color) .uk--nav > li > a.uk-open,
+.uk-tile-primary:not(.uk-preserve-color) .uk--nav > li:hover > a,
+.uk-tile-primary:not(.uk-preserve-color) .uk--nav > li > a:focus,
+.uk-tile-primary:not(.uk-preserve-color) .uk--nav > li > a.uk-open,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--nav > li:hover > a,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--nav > li > a:focus,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--nav > li > a.uk-open,
+.uk-card-primary.uk-card-body .uk--nav > li:hover > a,
+.uk-card-primary.uk-card-body .uk--nav > li > a:focus,
+.uk-card-primary.uk-card-body .uk--nav > li > a.uk-open,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--nav > li:hover > a,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--nav > li > a:focus,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--nav > li > a.uk-open,
+.uk-card-secondary.uk-card-body .uk--nav > li:hover > a,
+.uk-card-secondary.uk-card-body .uk--nav > li > a:focus,
+.uk-card-secondary.uk-card-body .uk--nav > li > a.uk-open,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--nav > li:hover > a,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--nav > li > a:focus,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--nav > li > a.uk-open,
+.uk-overlay-primary .uk--nav > li:hover > a,
+.uk-overlay-primary .uk--nav > li > a:focus,
+.uk-overlay-primary .uk--nav > li > a.uk-open,
+.uk-offcanvas-bar.uk-light.uk--nav > li:hover > a,
+.uk-offcanvas-bar.uk-light.uk--nav > li > a:focus,
+.uk-offcanvas-bar.uk-light.uk--nav > li > a.uk-open {
   color: rgba(255, 255, 255, 0.7);
 }
-.uk-light .uk-navbar-nav > li > a:active,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a:active,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a:active,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-nav > li > a:active,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-nav > li > a:active,
-.uk-card-primary.uk-card-body .uk-navbar-nav > li > a:active,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a:active,
-.uk-card-secondary.uk-card-body .uk-navbar-nav > li > a:active,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-nav > li > a:active,
-.uk-overlay-primary .uk-navbar-nav > li > a:active,
-.uk-offcanvas-bar.uk-light.uk-navbar-nav > li > a:active {
+.uk-light .uk--nav > li > a:active,
+.uk-section-primary:not(.uk-preserve-color) .uk--nav > li > a:active,
+.uk-section-secondary:not(.uk-preserve-color) .uk--nav > li > a:active,
+.uk-tile-primary:not(.uk-preserve-color) .uk--nav > li > a:active,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--nav > li > a:active,
+.uk-card-primary.uk-card-body .uk--nav > li > a:active,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--nav > li > a:active,
+.uk-card-secondary.uk-card-body .uk--nav > li > a:active,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--nav > li > a:active,
+.uk-overlay-primary .uk--nav > li > a:active,
+.uk-offcanvas-bar.uk-light.uk--nav > li > a:active {
   color: #fff;
 }
-.uk-light .uk-navbar-nav > li.uk-active > a,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-nav > li.uk-active > a,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-nav > li.uk-active > a,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-nav > li.uk-active > a,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-nav > li.uk-active > a,
-.uk-card-primary.uk-card-body .uk-navbar-nav > li.uk-active > a,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-nav > li.uk-active > a,
-.uk-card-secondary.uk-card-body .uk-navbar-nav > li.uk-active > a,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-nav > li.uk-active > a,
-.uk-overlay-primary .uk-navbar-nav > li.uk-active > a,
-.uk-offcanvas-bar.uk-light.uk-navbar-nav > li.uk-active > a {
+.uk-light .uk--nav > li.uk-active > a,
+.uk-section-primary:not(.uk-preserve-color) .uk--nav > li.uk-active > a,
+.uk-section-secondary:not(.uk-preserve-color) .uk--nav > li.uk-active > a,
+.uk-tile-primary:not(.uk-preserve-color) .uk--nav > li.uk-active > a,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--nav > li.uk-active > a,
+.uk-card-primary.uk-card-body .uk--nav > li.uk-active > a,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--nav > li.uk-active > a,
+.uk-card-secondary.uk-card-body .uk--nav > li.uk-active > a,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--nav > li.uk-active > a,
+.uk-overlay-primary .uk--nav > li.uk-active > a,
+.uk-offcanvas-bar.uk-light.uk--nav > li.uk-active > a {
   color: #fff;
 }
-.uk-light .uk-navbar-item,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-item,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-item,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-item,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-item,
-.uk-card-primary.uk-card-body .uk-navbar-item,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-item,
-.uk-card-secondary.uk-card-body .uk-navbar-item,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-item,
-.uk-overlay-primary .uk-navbar-item,
-.uk-offcanvas-bar.uk-light.uk-navbar-item {
+.uk-light .uk--item,
+.uk-section-primary:not(.uk-preserve-color) .uk--item,
+.uk-section-secondary:not(.uk-preserve-color) .uk--item,
+.uk-tile-primary:not(.uk-preserve-color) .uk--item,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--item,
+.uk-card-primary.uk-card-body .uk--item,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--item,
+.uk-card-secondary.uk-card-body .uk--item,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--item,
+.uk-overlay-primary .uk--item,
+.uk-offcanvas-bar.uk-light.uk--item {
   color: rgba(255, 255, 255, 0.7);
 }
-.uk-light .uk-navbar-toggle,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-toggle,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-toggle,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-toggle,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-toggle,
-.uk-card-primary.uk-card-body .uk-navbar-toggle,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-toggle,
-.uk-card-secondary.uk-card-body .uk-navbar-toggle,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-toggle,
-.uk-overlay-primary .uk-navbar-toggle,
-.uk-offcanvas-bar.uk-light.uk-navbar-toggle {
+.uk-light .uk--toggle,
+.uk-section-primary:not(.uk-preserve-color) .uk--toggle,
+.uk-section-secondary:not(.uk-preserve-color) .uk--toggle,
+.uk-tile-primary:not(.uk-preserve-color) .uk--toggle,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--toggle,
+.uk-card-primary.uk-card-body .uk--toggle,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--toggle,
+.uk-card-secondary.uk-card-body .uk--toggle,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--toggle,
+.uk-overlay-primary .uk--toggle,
+.uk-offcanvas-bar.uk-light.uk--toggle {
   color: rgba(255, 255, 255, 0.5);
 }
-.uk-light .uk-navbar-toggle:hover,
-.uk-light .uk-navbar-toggle:focus,
-.uk-light .uk-navbar-toggle.uk-open,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-toggle:hover,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-toggle:focus,
-.uk-section-primary:not(.uk-preserve-color) .uk-navbar-toggle.uk-open,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-toggle:hover,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-toggle:focus,
-.uk-section-secondary:not(.uk-preserve-color) .uk-navbar-toggle.uk-open,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-toggle:hover,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-toggle:focus,
-.uk-tile-primary:not(.uk-preserve-color) .uk-navbar-toggle.uk-open,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-toggle:hover,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-toggle:focus,
-.uk-tile-secondary:not(.uk-preserve-color) .uk-navbar-toggle.uk-open,
-.uk-card-primary.uk-card-body .uk-navbar-toggle:hover,
-.uk-card-primary.uk-card-body .uk-navbar-toggle:focus,
-.uk-card-primary.uk-card-body .uk-navbar-toggle.uk-open,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-toggle:hover,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-toggle:focus,
-.uk-card-primary > :not([class*='uk-card-media']) .uk-navbar-toggle.uk-open,
-.uk-card-secondary.uk-card-body .uk-navbar-toggle:hover,
-.uk-card-secondary.uk-card-body .uk-navbar-toggle:focus,
-.uk-card-secondary.uk-card-body .uk-navbar-toggle.uk-open,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-toggle:hover,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-toggle:focus,
-.uk-card-secondary > :not([class*='uk-card-media']) .uk-navbar-toggle.uk-open,
-.uk-overlay-primary .uk-navbar-toggle:hover,
-.uk-overlay-primary .uk-navbar-toggle:focus,
-.uk-overlay-primary .uk-navbar-toggle.uk-open,
-.uk-offcanvas-bar.uk-light.uk-navbar-toggle:hover,
-.uk-offcanvas-bar.uk-light.uk-navbar-toggle:focus,
-.uk-offcanvas-bar.uk-light.uk-navbar-toggle.uk-open {
+.uk-light .uk--toggle:hover,
+.uk-light .uk--toggle:focus,
+.uk-light .uk--toggle.uk-open,
+.uk-section-primary:not(.uk-preserve-color) .uk--toggle:hover,
+.uk-section-primary:not(.uk-preserve-color) .uk--toggle:focus,
+.uk-section-primary:not(.uk-preserve-color) .uk--toggle.uk-open,
+.uk-section-secondary:not(.uk-preserve-color) .uk--toggle:hover,
+.uk-section-secondary:not(.uk-preserve-color) .uk--toggle:focus,
+.uk-section-secondary:not(.uk-preserve-color) .uk--toggle.uk-open,
+.uk-tile-primary:not(.uk-preserve-color) .uk--toggle:hover,
+.uk-tile-primary:not(.uk-preserve-color) .uk--toggle:focus,
+.uk-tile-primary:not(.uk-preserve-color) .uk--toggle.uk-open,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--toggle:hover,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--toggle:focus,
+.uk-tile-secondary:not(.uk-preserve-color) .uk--toggle.uk-open,
+.uk-card-primary.uk-card-body .uk--toggle:hover,
+.uk-card-primary.uk-card-body .uk--toggle:focus,
+.uk-card-primary.uk-card-body .uk--toggle.uk-open,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--toggle:hover,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--toggle:focus,
+.uk-card-primary > :not([class*='uk-card-media']) .uk--toggle.uk-open,
+.uk-card-secondary.uk-card-body .uk--toggle:hover,
+.uk-card-secondary.uk-card-body .uk--toggle:focus,
+.uk-card-secondary.uk-card-body .uk--toggle.uk-open,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--toggle:hover,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--toggle:focus,
+.uk-card-secondary > :not([class*='uk-card-media']) .uk--toggle.uk-open,
+.uk-overlay-primary .uk--toggle:hover,
+.uk-overlay-primary .uk--toggle:focus,
+.uk-overlay-primary .uk--toggle.uk-open,
+.uk-offcanvas-bar.uk-light.uk--toggle:hover,
+.uk-offcanvas-bar.uk-light.uk--toggle:focus,
+.uk-offcanvas-bar.uk-light.uk--toggle.uk-open {
   color: rgba(255, 255, 255, 0.7);
 }
 .uk-light .uk-subnav > * > :first-child,

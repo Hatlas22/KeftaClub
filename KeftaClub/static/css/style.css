@@ -10037,4 +10037,9 @@ aside.sidebar.full-style {
     text-transform: uppercase;
 }
 
+/*--- Imad Add ---*/
 
+.send-message {
+    height: 2%;
+    width: 4%;
+}

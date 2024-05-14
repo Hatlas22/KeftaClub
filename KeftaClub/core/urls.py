@@ -12,4 +12,6 @@ urlpatterns = [
     path('signup', views.signup, name='signup'),
     path('signin', views.signin, name='signin'),
     path('logout', views.logout, name='logout'),
+    path('post/<str:pk>', views.post_detail, name='post_detail'),
+    path('<slug:slug>/', views.post_detail, name='post_detail')
 ]
