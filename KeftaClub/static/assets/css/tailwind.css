@@ -188,6 +188,16 @@ textarea {
   margin: 0; /* 2 */
 }
 
+.inline-select {
+  display: inline-flex;
+  align-content: space-around;
+  margin: none;
+}
+
+.inline-select div{
+  margin: none;
+}
+
 /**
 Remove the inheritance of text transform in Edge and Firefox.
 1. Remove the inheritance of text transform in Firefox.

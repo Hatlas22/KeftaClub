@@ -1573,7 +1573,7 @@ header .header_inner .left-side .header_search input {
   -webkit-box-shadow: none;
           box-shadow: none;
   padding-left: 30px;
-  width: 400px;
+  width: 500px;
   background-color: transparent;
 }
 
@@ -1650,7 +1650,7 @@ header .header_inner .right-side .header-avatar {
 }
 
 .header_dropdown {
-  width: 330px;
+  width: 400px;
   margin-top: 50px;
   border-radius: 5px;
   overflow: hidden;

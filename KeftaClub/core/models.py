@@ -12,6 +12,11 @@ class Profile(models.Model):
     bio = models.TextField(blank=True)
     profileimg = models.ImageField(upload_to='profile_images', default='blank-profile-picture.png')
     location = models.CharField(max_length=100, blank=True)
+    #Added section
+    birthDate = models.DateTimeField(default=datetime.fromisoformat("2000-01-01"))
+    favoriteMeat =models.CharField(max_length=100, default="unspecified")
+    favoriteCooking =models.CharField(max_length=100, default="unspecified")
+    favoriteRegion =models.CharField(max_length=100, default="unspecified")
 
     def __str__(self):
         return self.user.username
@@ -23,6 +28,12 @@ class Post(models.Model):
     caption = models.TextField()
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
+    #Added section
+    Meat =models.CharField(max_length=100, default="unspecified")
+    Cooking =models.CharField(max_length=100, default="unspecified")
+    Region =models.CharField(max_length=100, default="unspecified")
+    location = models.CharField(max_length=100, default="unknown")
+
 
     def __str__(self):
         return self.user

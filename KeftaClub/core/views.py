@@ -19,13 +19,16 @@ def index(request):
 
     user_following = FollowersCount.objects.filter(follower=request.user.username)
 
+    #This part list all the users you are following
     for users in user_following:
         user_following_list.append(users.user)
 
+    #Based on the users you follow, this part takes all their post and add them in a list
     for usernames in user_following_list:
         feed_lists = Post.objects.filter(user=usernames)
         feed.append(feed_lists)
 
+    #The user feed is then contained here
     feed_list = list(chain(*feed))
 
     # user suggestion starts
@@ -64,7 +67,17 @@ def upload(request):
         image = request.FILES.get('image_upload')
         caption = request.POST['caption']
 
-        new_post = Post.objects.create(user=user, image=image, caption=caption)
+        meat = request.POST['meat']
+        cooking = request.POST['cooking']
+        region = request.POST['region']
+        location = request.POST['location']
+
+        #Check if a location was entered
+        if not location.replace(" ", ""):
+            location = "unknown"
+
+        new_post = Post.objects.create(user=user, image=image, caption=caption, 
+                                       Meat=meat, Cooking=cooking, Region=region, location=location)
         new_post.save()
 
         return redirect('/')
@@ -170,11 +183,19 @@ def settings(request):
             image = user_profile.profileimg
             bio = request.POST['bio']
             location = request.POST['location']
+            favoriteMeat = request.POST['favoriteMeat']
+            favoriteCooking = request.POST['favoriteCooking']
+            favoriteRegion  = request.POST['favoriteRegion']
 
             user_profile.profileimg = image
             user_profile.bio = bio
             user_profile.location = location
+            user_profile.favoriteMeat = favoriteMeat   
+            user_profile.favoriteCooking = favoriteCooking
+            user_profile.favoriteRegion = favoriteRegion 
+
             user_profile.save()
+
         if request.FILES.get('image') != None:
             image = request.FILES.get('image')
             bio = request.POST['bio']
@@ -195,6 +216,7 @@ def signup(request):
         email = request.POST['email']
         password = request.POST['password']
         password2 = request.POST['password2']
+        birthdate = request.POST['birthdate']
 
         if password == password2:
             if User.objects.filter(email=email).exists():
@@ -213,7 +235,7 @@ def signup(request):
 
                 #create a Profile object for the new user
                 user_model = User.objects.get(username=username)
-                new_profile = Profile.objects.create(user=user_model, id_user=user_model.id)
+                new_profile = Profile.objects.create(user=user_model, id_user=user_model.id, birthDate = birthdate)
                 new_profile.save()
                 return redirect('settings')
         else:

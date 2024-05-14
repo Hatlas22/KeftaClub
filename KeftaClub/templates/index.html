@@ -79,9 +79,55 @@
                                         <input type="file" name="image_upload">
                                         <!-- <a href="#" class="button soft-warning small"> Choose file</a> -->
                                         <textarea class="button soft-warning small" name="caption" placeholder="caption..." ></textarea>
+                                    
+                                        <label for="">Location</label>
+                                        <input type="text" name="location" value="{{user_profile.location}}" class="shadow-none bg-gray-100">
+                                        <br>
+                                        <div class="inline-select">
+                                            <div>
+                                                <label for="meat">Meat</label>
+                                                <select id="meat" name="meat">
+                                                    <option value="beef">Beef</option>
+                                                    <option value="lamb">Lamb</option>
+                                                    <option value="mutton">Mutton</option>
+                                                    <option value="chicken">Chicken</option>
+                                                    <option value="fish">Fish</option>
+                                                    <option value="vegetarian">Vegetarian</option>
+                                                    <option value="unspecified">don't know</option>
+                                                </select>
+                                            </div>
+                
+                                            <div>
+                                                <label for="cooking">Cooking</label>
+                                                <select id="cooking" name="cooking">
+                                                    <option value="grilled">Grilled</option>
+                                                    <option value="sauce">In Sauce</option>
+                                                    <option value="fried">Fried</option>
+                                                    <option value="raw">Raw</option>
+                                                    <option value="unspecified">don't know</option>
+                                                </select>
+                                            </div>
+                            
+                                            <div>
+                                                <label for="region">Region</label>
+                                                <select id="region" name="region">
+                                                    <option value="moroccan">Moroccan</option>
+                                                    <option value="lebanese">Lebanese</option>
+                                                    <option value="turkish">Turkish</option>
+                                                    <option value="armenian">Armenian</option>
+                                                    <option value="indian">Indian</option>
+                                                    <option value="unspecified">don't know</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <br>
                                         <button class="button bg-blue-700" type="submit" >Upload</button>
                                     </div>
+
+                                        
+            
+                                        
+
                                     </form>
 
                                     <!-- <a href="#" class="uk-text-muted mt-3 uk-link"
