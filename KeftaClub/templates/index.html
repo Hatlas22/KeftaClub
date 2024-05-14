@@ -38,18 +38,18 @@
                         <i class="uil-bars"></i>
                     </div>
 
-                    <div class="header_search">
-                        <input type="text" name="username" placeholder="Search for username..">&nbsp; &nbsp;
-                        <button type="submit"><i class="fa fa-search fa-1x"></i></button>
+                        <!-- <div class="header_search"> -->
+                            <input type="text" name="username" placeholder="Search for username..">&nbsp; &nbsp;
+                            <button type="submit"><i class="fa fa-search fa-1x"></i></button>
+                        <!-- </div> -->
+
                     </div>
-
-                </div>
-            </form>
-            <div class="right-side lg:pr-4">
-
-                <a href="#"
-                    class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
-                    <ion-icon name="add-circle" class="-mb-1
+                    </form>
+                    <div class="right-side lg:pr-4">
+                         <!-- upload -->
+                        <a href="#"
+                            class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
+                            <ion-icon name="add-circle" class="-mb-1
                              mr-1 opacity-90 text-xl uilus-circle"></ion-icon> Upload Pics
                 </a>
 
@@ -83,9 +83,55 @@
                                     <a href="#" class="button soft-warning small"> Choose file</a>
                                     <textarea class="button soft-warning small" name="caption"
                                         placeholder="caption..."></textarea>
+                                    
+                                        <label for="">Location</label>
+                                        <input type="text" name="location" value="{{user_profile.location}}" class="shadow-none bg-gray-100">
+                                        <br>
+                                        <div class="inline-select">
+                                            <div>
+                                                <label for="meat">Meat</label>
+                                                <select id="meat" name="meat">
+                                                    <option value="beef">Beef</option>
+                                                    <option value="lamb">Lamb</option>
+                                                    <option value="mutton">Mutton</option>
+                                                    <option value="chicken">Chicken</option>
+                                                    <option value="fish">Fish</option>
+                                                    <option value="vegetarian">Vegetarian</option>
+                                                    <option value="unspecified">don't know</option>
+                                                </select>
+                                            </div>
+                
+                                            <div>
+                                                <label for="cooking">Cooking</label>
+                                                <select id="cooking" name="cooking">
+                                                    <option value="grilled">Grilled</option>
+                                                    <option value="sauce">In Sauce</option>
+                                                    <option value="fried">Fried</option>
+                                                    <option value="raw">Raw</option>
+                                                    <option value="unspecified">don't know</option>
+                                                </select>
+                                            </div>
+                            
+                                            <div>
+                                                <label for="region">Region</label>
+                                                <select id="region" name="region">
+                                                    <option value="moroccan">Moroccan</option>
+                                                    <option value="lebanese">Lebanese</option>
+                                                    <option value="turkish">Turkish</option>
+                                                    <option value="armenian">Armenian</option>
+                                                    <option value="indian">Indian</option>
+                                                    <option value="unspecified">don't know</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                     <br>
                                     <button class="button bg-blue-700" type="submit">Upload</button>
                                 </div>
+
+                                        
+            
+                                        
+
                             </form>
 
                             <a href="#" class="uk-text-muted mt-3 uk-link"
@@ -226,23 +272,21 @@
                                 </div>
                             </a>
                         </li>
-                    </ul>
-
+                            </ul>
+        
                     <a href="#" class="see-all">See all</a>
-                </div>
+                        </div>
 
 
-
-                <a href="#">
-                    <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
-                </a>
-                <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
-                    <ul>
-                        <li><a href="/profile/{{user_profile.user.username}}"> Profile </a> </li>
-                        <li><a href="/settings">Account setting </a> </li>
-                        <li><a href="logout">Log Out</a></li>
-                    </ul>
-                </div>
+                        <a href="#">
+                            <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
+                        </a>
+                        <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
+                            <ul>
+                                <li><a href="/settings"> Account setting </a> </li>
+                                <li><a href="logout"> Log Out</a></li>
+                            </ul>
+                        </div>
 
             </div>
         </div>
