@@ -1,29 +1,49 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount
+from .models import Profile, Post, LikePost, FollowersCount, Comment
+from .forms import CommentForm
 from itertools import chain
 import random
-
+import networkx as nx
+import sqlite3
 # Create your views here.
 
 @login_required(login_url='signin')
 def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
+    user_post = Post.objects.filter(user=user_object)
+    person_who_like_user_post = []
+
+    for post in user_post:
+        like_user_post = LikePost.objects.filter(post_id=post.id)
+        for like in like_user_post:
+            liker = User.objects.get(username=like.username)
+            person_who_like_user_post.append(liker)
 
     user_following_list = []
+    followers_list = []
     feed = []
 
     user_following = FollowersCount.objects.filter(follower=request.user.username)
+    followers = FollowersCount.objects.filter(user=request.user.username)
+
+    # Si aucun follower n'existe, définissez la liste des followers sur None
+    if not followers.exists():
+        followers = []
 
     #This part list all the users you are following
     for users in user_following:
         user_following_list.append(users.user)
 
-    #Based on the users you follow, this part takes all their post and add them in a list
+    for follower in followers :
+
+        user_follower = User.objects.get(username = follower.follower)
+        followers_list.append(Profile.objects.get(user=user_follower))
+
     for usernames in user_following_list:
         feed_lists = Post.objects.filter(user=usernames)
         feed.append(feed_lists)
@@ -55,9 +75,8 @@ def index(request):
         username_profile_list.append(profile_lists)
 
     suggestions_username_profile_list = list(chain(*username_profile_list))
-
-
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4]})
+    
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4], "followers":followers_list[:4],"user_following":user_following ,"person_who_liked_post":person_who_like_user_post})
 
 @login_required(login_url='signin')
 def upload(request):
@@ -267,3 +286,23 @@ def signin(request):
 def logout(request):
     auth.logout(request)
     return redirect('signin')
+
+@login_required(login_url='signin')
+def post_detail(request, pk):
+    post = get_object_or_404(Post, pk=pk)
+    user_object = User.objects.get(username=request.user.username)
+    comments = post.comments.all()
+    new_comment = None 
+    user_profile = Profile.objects.get(user=user_object)
+    if request.method == 'POST':
+        comment_form = CommentForm(data=request.POST)
+        if comment_form.is_valid():
+            # Create Comment object but don't save to database yet
+            new_comment = comment_form.save(commit=False)
+            # Assign the current post to the comment
+            new_comment.post = post
+            # Save the comment to the database
+            new_comment.save()
+    else:
+        comment_form = CommentForm()
+    return render(request, 'post_detail.html', {'post': post,'user_profile':user_profile,  'comments': comments,'new_comment': new_comment,'comment_form': comment_form})

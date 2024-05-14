@@ -10,7 +10,7 @@
     <meta name="description" content="" />
     <meta name="keywords" content="" />
 	<title>Profile - {{user_profile.user.username}}</title>
-   <!-- <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> -->
+    <link rel="icon" href="images/fav.png" type="image/png" sizes="16x16"> 
     
     <link rel="stylesheet" href="{% static 'css/main.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
@@ -19,7 +19,7 @@
 
 </head>
 <body>
-<!--<div class="se-pre-con"></div>-->
+<div class="se-pre-con"></div>
 <div class="theme-layout">
 	
 	</div>
@@ -56,30 +56,30 @@
 					<a href="/settings" data-ripple="">Account Settings</a>
 					{% else %}
 					<a data-ripple=""><button type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">{{button_text}}</button></a>
-					{% endif %}
+					{% endif %}(-)
 
 					</div>
 				</form>
 
-				<!-- <form class="edit-phto">
+				 <form class="edit-phto">
 					<i class="fa fa-camera-retro"></i>
 					<label class="fileContainer">
 						Upload Cover Photo
 					<input type="file"/>
 					</label>
-				</form> -->
+				</form> 
 				<div class="container-fluid">
 					<div class="row merged">
 						<div class="col-lg-2 col-sm-3">
 							<div class="user-avatar">
 								<figure>
 									<img src="{{user_profile.profileimg.url}}" style="height: 250px; width: 100%;" alt="">
-									<!-- <form class="edit-phto">
+									 <form class="edit-phto">
 										<i class="fa fa-camera-retro"></i>
 										<label class="fileContainer">
 											<a href="#account-settings">Upload Profile Photo</a>
 										</label>
-									</form> -->
+									</form> 
 								</figure>
 							</div>
 						</div>
@@ -87,10 +87,10 @@
 							<div class="timeline-info">
 								<ul>
 									<li class="admin-name">
-									  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>@{{user_profile.user.username}}</b><!--<i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i>--></h5>
-									  <!--<span>Group Admin</span>-->
+									  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>@{{user_profile.user.username}}</b><i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i></h5>
+									  <span>Group Admin</span>
 									</li>
-									<!--<li>
+									<li>
 										<a class="" href="javascript:void(0)" title="" data-ripple="">Go live!</a>
 										<a class="" href="javascript:void(0)" title="" data-ripple="">Music</a>
 										<a class="" href="emporium/index-3.html" title="" data-ripple="">Emporium</a>
@@ -105,14 +105,14 @@
 										<a class="" href="about.html" title="" data-ripple="">about</a>
 										<a class="" href="#" title="" data-ripple="">more</a>
 
-									</li>-->
+									</li>
 								</ul>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section><!-- top area -->
+		</section> top area 
 		<section>
 			<div class="bio">
 					{{user_profile.bio}}
@@ -131,7 +131,7 @@
 									
 									
 								</aside>
-							</div><!-- sidebar -->
+							</div> sidebar 
 							
 
 
@@ -156,14 +156,14 @@
 										
 										
 									</ul>
-									<!--<div class="lodmore"><button class="btn-view btn-load-more"></button></div>-->
-								</div><!-- photos -->
-							</div><!-- centerl meta -->
+									<div class="lodmore"><button class="btn-view btn-load-more"></button></div>
+								</div> photos 
+							</div> centerl meta 
 							<div class="col-lg-3">
 								<aside class="sidebar static">
 									
 								</aside>
-							</div><!-- sidebar -->
+							</div> sidebar 
 						</div>	
 					</div>
 				</div>
