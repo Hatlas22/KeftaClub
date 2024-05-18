@@ -84,7 +84,6 @@ def index(request):
 
     suggestions_username_profile_list = list(chain(*username_profile_list))
 
-    print(person_who_like_user_post[0])
     return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4], "followers":followers_list[:4], "person_who_liked_post":person_who_like_user_post,"message_receive":user_sender[:5]})
 
 @login_required(login_url='signin')
@@ -365,27 +364,47 @@ class CreateThread(View):
     def post(self, request, *args, **kwargs):
         form = ThreadForm(request.POST)
 
-        username = request.POST.get('username')
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
 
-        try:
-            receiver = User.objects.get(username=username)
-            if ThreadModel.objects.filter(user=request.user, receiver=receiver).exists():
-                thread = ThreadModel.objects.filter(user=request.user, receiver=receiver)[0]
-                return redirect('thread', pk=thread.pk)
-            elif ThreadModel.objects.filter(user=receiver, receiver=request.user).exists():
-                thread = ThreadModel.objects.filter(user=receiver, receiver=request.user)[0]
+            if username == request.user.username:
+                # Avoid creating a thread with oneself
+                context = {
+                    'form': form,
+                    'error': 'You cannot create a thread with yourself.'
+                }
+                return render(request, 'create_thread.html', context)
+
+            try:
+                receiver = User.objects.get(username=username)
+            except User.DoesNotExist:
+                # If the receiver does not exist, redirect back to the create thread page with an error message
+                context = {
+                    'form': form,
+                    'error': 'User with this username does not exist.'
+                }
+                return render(request, 'create_thread.html', context)
+
+            # Check if a thread already exists between the two users
+            thread = (ThreadModel.objects.filter(user=request.user, receiver=receiver) |
+                      ThreadModel.objects.filter(user=receiver, receiver=request.user)).first()
+
+            if thread:
                 return redirect('thread', pk=thread.pk)
 
-            if form.is_valid():
-                thread = ThreadModel(
-                    user=request.user,
-                    receiver=receiver
-                )
-                thread.save()
-
-                return redirect('thread', pk=thread.pk)
-        except:
-            return redirect('create-thread')
+            # Create a new thread if none exists
+            thread = ThreadModel(
+                user=request.user,
+                receiver=receiver
+            )
+            thread.save()
+            return redirect('thread', pk=thread.pk)
+        else:
+            # If the form is not valid, re-render the form with errors
+            context = {
+                'form': form
+            }
+            return render(request, 'create_thread.html', context)
 
 class ThreadView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -402,18 +421,19 @@ class ThreadView(View):
 
 class CreateMessage(View):
     def post(self, request, pk, *args, **kwargs):
+        form = MessageForm(request.POST, request.FILES)
         thread = ThreadModel.objects.get(pk=pk)
         if thread.receiver == request.user:
             receiver = thread.user
         else:
             receiver = thread.receiver
 
-        message = MessageModel(
-            thread=thread,
-            sender_user=request.user,
-            receiver_user=receiver,
-            body=request.POST.get('message')
-        )
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.thread = thread
+            message.sender_user = request.user
+            message.receiver_user = receiver
+            message.save()
 
-        message.save()
+        
         return redirect('thread', pk=pk)

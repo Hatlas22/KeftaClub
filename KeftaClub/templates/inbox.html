@@ -10,7 +10,11 @@
     <title>Home</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
     <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
     <!-- Google Fonts -->
@@ -30,13 +34,7 @@
                     
             <div class="right-side lg:pr-4">
                          <!-- upload -->
-                       
-
-                    
-        
-
-
-
+ 
                 <a href="#" class="header-links-item">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         aria-hidden="true" role="img" width="1em" height="1em" preserveAspectRatio="xMidYMid meet"
@@ -131,7 +129,7 @@
             <ul>
                 <li><a href="/profile/{{user_profile.user.username}}"> Profile </a> </li>
                 <li><a href="/settings"> Account setting </a> </li>
-                <li><a href="logout"> Log Out</a></li>
+                <li><a href="/signin"> Log Out</a></li>
             </ul>
         </div>
     </div>
@@ -156,7 +154,7 @@
 	<div class="row mb-3">
 		<div class="card col-md-12 p-5 shadow-sm">
 
-			<a class="stretched-link" href="{% url 'thread' thread.pk %}"><h5>{{ thread.receiver }} conversations</h5></a>
+			<a class="stretched-link" href="{% url 'thread' thread.pk %}"><h5>{{ thread.user }} - {{ thread.receiver }}</h5></a>
 		</div>
 	</div>
 	{% endfor %}
