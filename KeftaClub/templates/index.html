@@ -26,13 +26,7 @@
             <form action="/search" method="POST">
                 {% csrf_token %}
                 <div class="left-side">
-                    <div id="logo" class=" uk-hidden@s">
-                        <a href="home.html">
-                            <b>
-                                <h1 style="text-transform: uppercase;">Kefta Club</h1>
-                            </b>
-                        </a>
-                    </div>
+                   
 
                     <div class="triger" uk-toggle="target: #wrapper ; cls: sidebar-active">
                         <i class="uil-bars"></i>
@@ -44,8 +38,16 @@
                         <!-- </div> -->
 
                     </div>
-                    </form>
-                    <div class="right-side lg:pr-4">
+            </form>
+            
+            <div style="margin-left: 25%; display: flex;">
+                    <b><h1>Kefta Club</h1></b>
+                    <div class="drop_avatar">
+                        <img src="static/images/KeftaClub_logo.jpeg" style="width: 15%; height:70%;" class="drop_avatar">
+                    </div>
+            </div>
+
+                <div class="right-side lg:pr-4">
                          <!-- upload -->
                         <a href="#"
                             class="bg-pink-500 flex font-bold hidden hover:bg-pink-600 hover:text-white inline-block items-center lg:block max-h-10 mr-4 px-4 py-2 rounded shado text-white">
@@ -226,7 +228,7 @@
                         <li>
                             <a href="/profile/{{liker.username}}">
                                 <div class="drop_avatar">
-                                    <img src="{{ liker }}" alt="">
+                                    <img src="{{ liker.profile_pic.url }}" alt="">
                                 </div>
                                 <div class="drop_content">
                                     <p>
@@ -259,36 +261,50 @@
                 </a>
                 <div uk-drop="mode: click;offset: 4" class="header_dropdown">
                     <div class="msg-notif-head">
-                    <h4 class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3"> Messages </h4>
-                    <ul class="dropdown_scrollbar" data-simplebar>
-                        <li>
-                            <a href="#">
-                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}"
-                                        alt="">
-                                </div>
-                                <div class="drop_content">
-                                    <strong> Taiye </strong> <time> 6:43 PM</time>
-                                    <p> hi tomi </p>
-                                </div>
-                            </a>
-                        </li>
+                        <div class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3">
+                            <h4> Messages </h4>
+                            <ul class="dropdown_scrollbar" data-simplebar>
+                                {%if message_receive %}
+                                {% for sender in message_receive %}
+                                <li>
+                                    <a href="/inbox/{{sender.thread}}">
+                                        <div class="drop_content">
+                                            <p>
+                                                <strong class="text-link">{{sender.sender_name}}</strong>
+                                                <span class="text-link"> sent-message at {{sender.message_date.time}} </span>
+                                            </p>
+                                            <!--<span class="time-ago"> 2 hours ago </span>-->
+                                        </div>
+                                    </a>
+                                </li>
+                                {% endfor %}
+                                {% else %}
+                                <li>No like yet</li>
+                                {% endif %}
                             </ul>
+                        </div>
+                        
         
                     <a href="#" class="see-all">See all</a>
-                        </div>
-
-
-                        <a href="#">
-                            <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
-                        </a>
-                        <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
-                            <ul>
-                                <li><a href="/settings"> Account setting </a> </li>
-                                <li><a href="logout"> Log Out</a></li>
-                            </ul>
-                        </div>
+                    
 
             </div>
+        </div>
+
+
+        <a href="#">
+            <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
+        </a>
+        <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
+            <ul>
+                <ul>
+                    <li><a href="/profile/{{user_profile.user.username}}"> Profile </a> </li>
+                    <li><a href="/inbox"> Message </a> </li>
+                    <li><a href="/settings"> Account setting </a> </li>
+                    <li><a href="logout"> Log Out</a></li>
+                </ul>
+            </ul>
+        </div>
         </div>
     </header>
 

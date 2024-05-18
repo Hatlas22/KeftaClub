@@ -1,0 +1,113 @@
+{% load static %}
+{% load crispy_forms_tags %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'favicon.png' %}" rel="icon" type="image/png">
+    <title>Home</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+
+    <header>
+        <div class="header_inner">
+                <a href="#" class="header-links-item">
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                        aria-hidden="true" role="img" width="0.5em" height="0.5em" preserveAspectRatio="xMidYMid meet"
+                        viewBox="0 0 16 16">
+                        <g fill="currentColor">
+                            <path
+                                d="M2 0a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2.5a1 1 0 0 1 .8.4l1.9 2.533a1 1 0 0 0 1.6 0l1.9-2.533a1 1 0 0 1 .8-.4H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                        </g>
+                    </svg>
+                </a>
+                <div uk-drop="mode: click;offset: 4" class="header_dropdown">
+                    <div class="msg-notif-head">
+                    <h4 class="-mt-5 -mx-5 bg-gradient-to-t from-gray-100 to-gray-50 border-b font-bold px-6 py-3"> Messages </h4>
+                    <ul class="dropdown_scrollbar" data-simplebar>
+                        <li>
+                            <a href="#">
+                                <div class="drop_avatar"> <img src="{% static 'assets/images/avatars/avatar-1.jpg' %}"
+                                        alt="">
+                                </div>
+                                <div class="drop_content">
+                                    <strong> Taiye </strong> <time> 6:43 PM</time>
+                                    <p> hi tomi </p>
+                                </div>
+                            </a>
+                        </li>
+                            </ul>
+        
+                    <a href="#" class="see-all">See all</a>
+                    
+
+            </div>
+        </div>
+
+
+        <a href="#">
+            <img src="{{user_profile.profileimg.url}}" class="header-avatar" alt="">
+        </a>
+        <div uk-drop="mode: click;offset:9" class="header_dropdown profile_dropdown border-t">
+            <ul>
+                <li><a href="/profile/{{user_profile.user.username}}"> Profile </a> </li>
+                <li><a href="/settings"> Account setting </a> </li>
+                <li><a href="logout"> Log Out</a></li>
+            </ul>
+        </div>
+        </div>
+    </header>
+<!--Thread content here-->
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 p-5">
+			<a href="{% url 'inbox' %}" class="btn btn-light">Back to Your Inbox</a>
+		</div>
+	</div>
+
+	<div class="row">
+		<div class="col-md-12 p-5">
+			<h3>Start a Conversation!</h3>
+		</div>
+	</div>
+
+	<div class="row justify-content-center mt-3 mb-5">
+		<div class="col-md-5 col-sm-12">
+			<form method="POST">
+				{% csrf_token %}
+				<p>Enter the username for the person you would like to talk to.</p>
+				{{ form | crispy}}
+				<div class="d-grid gap-2">
+					<button class="btn btn-success mt-3" type="submit">Continue</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!---->
+<script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/uikit.js' %}"></script>
+<script src="{% static 'assets/js/simplebar.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
+
+
+<script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
+</body>
+
+
+</html>
