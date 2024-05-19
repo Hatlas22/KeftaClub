@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
@@ -315,6 +315,8 @@ def post_detail(request, pk):
         comment_form = CommentForm()
     return render(request, 'post_detail.html', {'post': post,'user_profile':user_profile,  'comments': comments,'new_comment': new_comment,'comment_form': comment_form})
 
+
+#Fonction pour leq messages privé
 class ListThreads(View):
     def get(self, request, *args, **kwargs):
         threads = ThreadModel.objects.filter(Q(user=request.user) | Q(receiver=request.user))
@@ -437,3 +439,44 @@ class CreateMessage(View):
 
         
         return redirect('thread', pk=pk)
+
+
+def room(request, room_name):
+    username = request.GET.get('username')
+    room = get_object_or_404(Room, name=room_name)
+    return render(request, 'room.html', {
+        'username': username,
+        'room': room,
+    })
+
+def checkview(request):
+    if request.method == 'POST':
+        room_name = request.POST['room_name']
+        username = request.POST['username']
+
+        user = User.objects.get(username=username)
+        
+        room, created = Room.objects.get_or_create(name=room_name)
+
+        return redirect(f'/{room.name}/?username={username}')
+    return render(request, 'create_room.html')
+
+    
+
+def send(request):
+    if request.method == 'POST':
+        message = request.POST['message']
+        username = request.POST['username']
+        room_id = request.POST['room_id']
+
+        
+
+        new_message = Message.objects.create(value= message , user = username , room = room_id)
+        new_message.save()
+        return HttpResponse('Message envoyé avec succès')
+
+
+def getMessages(request, room_name):
+    room = get_object_or_404(Room, name=room_name)
+    messages = Message.objects.filter(room=room).order_by('date')
+    return JsonResponse({"messages": list(messages.values())})

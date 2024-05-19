@@ -148,6 +148,11 @@
 				<button class="btn btn-light p-3" type="submit">Start a Conversation</button>
 			</form>
 		</div>
+
+        <div class="col-md-12 p-5">
+            <a href="{% url 'checkview' %}" class="btn btn-light p-3">Create a Room</a>
+        </div>
+
 	</div>
 
 	{% for thread in threads.all %}
