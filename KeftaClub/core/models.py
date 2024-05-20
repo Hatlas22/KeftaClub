@@ -70,20 +70,6 @@ class PostComment(models.Model):
     def __str__(self):
         return 'Comment {} by {}'.format(self.body, self.name)
     
-
-class ThreadModel(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
-	receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
-
-class MessageModel(models.Model):
-	thread = models.ForeignKey('ThreadModel', related_name='+', on_delete=models.CASCADE, blank=True, null=True)
-	sender_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
-	receiver_user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='+')
-	body = models.CharField(max_length=1000)
-	image = models.ImageField(upload_to='uploads/message_photos', blank=True, null=True)
-	date = models.DateTimeField(default=datetime.now)
-	is_read = models.BooleanField(default=False)
-
 class Room(models.Model):
     name = models.CharField(max_length=2000)
 
