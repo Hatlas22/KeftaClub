@@ -1,108 +1,32 @@
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 1.0
-Average rank influence algorithm: 1.5
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 4.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
 Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 4.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 4.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 4.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 3.5
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 4.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 3.5
 Average rank influence algorithm: 1.0
 Influence algorithm is better
 
-Average rank common friends algorithm: 3.5
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 3.5
-None is better
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 1.5
+Influence algorithm is better
 
 Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.5
 Average rank influence algorithm: 4.0
 Number of common friends algorithm is better
 
@@ -110,27 +34,111 @@ Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 3.0
 Number of common friends algorithm is better
 
-Average rank common friends algorithm: 4.0
-Average rank influence algorithm: 2.5
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
 Influence algorithm is better
 
 Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 3.0
 Number of common friends algorithm is better
 
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
 None is better
 
 Average rank common friends algorithm: 1.0
 Average rank influence algorithm: 1.5
 Number of common friends algorithm is better
 
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
 Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
+Average rank influence algorithm: 2.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
 Number of common friends algorithm is better
 
 Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 2.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.5
 Average rank influence algorithm: 4.0
 Number of common friends algorithm is better
 
@@ -138,186 +146,206 @@ Average rank common friends algorithm: 1.0
 Average rank influence algorithm: 1.5
 Number of common friends algorithm is better
 
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 3.5
-Average rank influence algorithm: 3.5
-None is better
-
-Average rank common friends algorithm: 4.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 3.0
+Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 3.5
 Number of common friends algorithm is better
 
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
 
 Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 1.5
 Influence algorithm is better
 
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.0
+Number of common friends algorithm is better
+
 Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 2.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 3.5
 Number of common friends algorithm is better
 
 Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 4.0
 Average rank influence algorithm: 2.5
-Influence algorithm is better
+Number of common friends algorithm is better
 
 Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 4.0
 Average rank influence algorithm: 2.5
-Influence algorithm is better
+Number of common friends algorithm is better
 
-Average rank common friends algorithm: 3.5
-Average rank influence algorithm: 3.5
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
 None is better
 
 Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.0
 Average rank influence algorithm: 1.5
-Influence algorithm is better
+Number of common friends algorithm is better
 
-Average rank common friends algorithm: 4.0
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 1.0
+Average rank influence algorithm: 1.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.0
 Influence algorithm is better
 
 Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.5
+Average rank influence algorithm: 1.0
 Influence algorithm is better
+
+Average rank common friends algorithm: 1.5
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
 
 Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 4.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.5
 Average rank influence algorithm: 1.0
 Influence algorithm is better
 
 Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 1.0
-Average rank influence algorithm: 1.5
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 3.5
+Average rank influence algorithm: 2.5
 Number of common friends algorithm is better
 
 Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
 None is better
 
-Average rank common friends algorithm: 4.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
 Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 2.5
-Average rank influence algorithm: 3.0
-Number of common friends algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 1.5
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.5
 Average rank influence algorithm: 1.5
 Influence algorithm is better
 
 Average rank common friends algorithm: 4.0
 Average rank influence algorithm: 2.5
 Influence algorithm is better
-
-Average rank common friends algorithm: 3.0
-Average rank influence algorithm: 2.0
-Influence algorithm is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
 
 Average rank common friends algorithm: 3.0
 Average rank influence algorithm: 4.0
 Number of common friends algorithm is better
 
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 2.0
-Average rank influence algorithm: 2.0
-None is better
-
-Average rank common friends algorithm: 3.5
+Average rank common friends algorithm: 3.0
 Average rank influence algorithm: 3.5
-None is better
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 4.0
+Number of common friends algorithm is better
 
 Average rank common friends algorithm: 1.0
 Average rank influence algorithm: 1.5
 Number of common friends algorithm is better
 
-Number of common friends algorithm: 24
-Influence algorithm: 37
-Neutral: 39
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.0
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 2.0
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 3.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.5
+Average rank influence algorithm: 2.5
+None is better
+
+Average rank common friends algorithm: 3.0
+Average rank influence algorithm: 1.5
+Influence algorithm is better
+
+Average rank common friends algorithm: 2.0
+Average rank influence algorithm: 2.5
+Number of common friends algorithm is better
+
+Number of common friends algorithm: 48
+Influence algorithm: 21
+Neutral: 31
