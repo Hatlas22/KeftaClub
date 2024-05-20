@@ -13,5 +13,13 @@ urlpatterns = [
     path('signin', views.signin, name='signin'),
     path('logout', views.logout, name='logout'),
     path('post/<str:pk>', views.post_detail, name='post_detail'),
-    path('<slug:slug>/', views.post_detail, name='post_detail')
+    path('inbox/', views.ListThreads.as_view(), name='inbox'),
+    path('inbox/create-thread/', views.CreateThread.as_view(), name='create-thread'),
+    path('inbox/<int:pk>/', views.ThreadView.as_view(), name='thread'),
+    path('inbox/<int:pk>/create-message/', views.CreateMessage.as_view(), name='create-message'),
+    path('<str:room_name>/', views.room , name ="room"),
+    path('send', views.send , name ="send"),
+    path('checkview', views.checkview , name ="checkview"),
+    path('getMessages/<str:room_name>/', views.getMessages , name ="getMessages"),
+
 ]

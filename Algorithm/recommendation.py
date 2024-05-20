@@ -41,7 +41,7 @@ def number_of_common_friends_map(graph, user):
     for friend in user_friends:
         length = len(common_friends(graph, user, friend))
         if length >= 1:
-            common_friends_map[friend] = length / len(friends(graph, friend))
+            common_friends_map[friend] = length
 
     return common_friends_map
 
