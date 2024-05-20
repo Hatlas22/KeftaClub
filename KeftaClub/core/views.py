@@ -1,14 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse , JsonResponse
 from django.contrib.auth.decorators import login_required
-from .models import Profile, Post, LikePost, FollowersCount, Comment
-from .forms import CommentForm
+from .models import *
+from .forms import *
 from itertools import chain
 import random
-import networkx as nx
-import sqlite3
+from django.views import View
+from django.db.models import Q
+from django.urls import reverse_lazy
 # Create your views here.
 
 @login_required(login_url='signin')
@@ -16,14 +17,18 @@ def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
     user_post = Post.objects.filter(user=user_object)
+    user_receive_msg = MessageModel.objects.filter(receiver_user_id=request.user.id).order_by("-date")
+    
     person_who_like_user_post = []
-
     for post in user_post:
-        like_user_post = LikePost.objects.filter(post_id=post.id)
-        for like in like_user_post:
-            liker = User.objects.get(username=like.username)
-            person_who_like_user_post.append(liker)
+        like_user_posts = LikePost.objects.filter(post_id=post.id)
+        for like in like_user_posts:
+            liker_username = like.username
+            liker_user = User.objects.get(username=liker_username)
+            liker_profile = Profile.objects.get(id_user=liker_user.id)
+            person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg}) # Assuming 'profileimg' is the field name for the profile picture
 
+    user_sender = []
     user_following_list = []
     followers_list = []
     feed = []
@@ -39,6 +44,9 @@ def index(request):
     for users in user_following:
         user_following_list.append(users.user)
 
+    for sender in user_receive_msg :
+        author_msg = User.objects.get(id=sender.sender_user_id)
+        user_sender.append({"sender_name":author_msg.username,"message_date":sender.date,"thread":sender.thread_id})
     for follower in followers :
 
         user_follower = User.objects.get(username = follower.follower)
@@ -75,8 +83,8 @@ def index(request):
         username_profile_list.append(profile_lists)
 
     suggestions_username_profile_list = list(chain(*username_profile_list))
-    
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4], "followers":followers_list[:4],"user_following":user_following ,"person_who_liked_post":person_who_like_user_post})
+
+    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4], "followers":followers_list[:4], "person_who_liked_post":person_who_like_user_post,"message_receive":user_sender[:5]})
 
 @login_required(login_url='signin')
 def upload(request):
@@ -306,3 +314,169 @@ def post_detail(request, pk):
     else:
         comment_form = CommentForm()
     return render(request, 'post_detail.html', {'post': post,'user_profile':user_profile,  'comments': comments,'new_comment': new_comment,'comment_form': comment_form})
+
+
+#Fonction pour leq messages privé
+class ListThreads(View):
+    def get(self, request, *args, **kwargs):
+        threads = ThreadModel.objects.filter(Q(user=request.user) | Q(receiver=request.user))
+        user_object = User.objects.get(username=request.user.username)
+        user_profile = Profile.objects.get(user=user_object)
+        followers_list = []
+
+        followers = FollowersCount.objects.filter(user=request.user.username)
+
+        for follower in followers :
+
+            user_follower = User.objects.get(username = follower.follower)
+            followers_list.append(Profile.objects.get(user=user_follower))
+    
+        person_who_like_user_post = []
+        user_post = Post.objects.filter(user=user_object)
+
+        for post in user_post:
+            like_user_posts = LikePost.objects.filter(post_id=post.id)
+            for like in like_user_posts:
+                liker_username = like.username
+                liker_user = User.objects.get(username=liker_username)
+                liker_profile = Profile.objects.get(id_user=liker_user.id)
+                person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg}) # Assuming 'profileimg' is the field name for the profile picture
+
+
+
+        context = {
+            'threads': threads,
+            'user_profile': user_profile,
+            "followers":followers_list[:4], 
+            "person_who_liked_post":person_who_like_user_post
+            }
+
+        return render(request, 'inbox.html', context)
+    
+class CreateThread(View):
+    def get(self, request, *args, **kwargs):
+        form = ThreadForm()
+
+        context = {
+            'form': form
+        }
+
+        return render(request, 'create_thread.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = ThreadForm(request.POST)
+
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+
+            if username == request.user.username:
+                # Avoid creating a thread with oneself
+                context = {
+                    'form': form,
+                    'error': 'You cannot create a thread with yourself.'
+                }
+                return render(request, 'create_thread.html', context)
+
+            try:
+                receiver = User.objects.get(username=username)
+            except User.DoesNotExist:
+                # If the receiver does not exist, redirect back to the create thread page with an error message
+                context = {
+                    'form': form,
+                    'error': 'User with this username does not exist.'
+                }
+                return render(request, 'create_thread.html', context)
+
+            # Check if a thread already exists between the two users
+            thread = (ThreadModel.objects.filter(user=request.user, receiver=receiver) |
+                      ThreadModel.objects.filter(user=receiver, receiver=request.user)).first()
+
+            if thread:
+                return redirect('thread', pk=thread.pk)
+
+            # Create a new thread if none exists
+            thread = ThreadModel(
+                user=request.user,
+                receiver=receiver
+            )
+            thread.save()
+            return redirect('thread', pk=thread.pk)
+        else:
+            # If the form is not valid, re-render the form with errors
+            context = {
+                'form': form
+            }
+            return render(request, 'create_thread.html', context)
+
+class ThreadView(View):
+    def get(self, request, pk, *args, **kwargs):
+        form = MessageForm()
+        thread = ThreadModel.objects.get(pk=pk)
+        message_list = MessageModel.objects.filter(thread__pk__contains=pk)
+        context = {
+            'thread': thread,
+            'form': form,
+            'message_list': message_list
+        }
+
+        return render(request, 'thread.html', context)
+
+class CreateMessage(View):
+    def post(self, request, pk, *args, **kwargs):
+        form = MessageForm(request.POST, request.FILES)
+        thread = ThreadModel.objects.get(pk=pk)
+        if thread.receiver == request.user:
+            receiver = thread.user
+        else:
+            receiver = thread.receiver
+
+        if form.is_valid():
+            message = form.save(commit=False)
+            message.thread = thread
+            message.sender_user = request.user
+            message.receiver_user = receiver
+            message.save()
+
+        
+        return redirect('thread', pk=pk)
+
+
+def room(request, room_name):
+    username = request.GET.get('username')
+    room = get_object_or_404(Room, name=room_name)
+    return render(request, 'room.html', {
+        'username': username,
+        'room': room,
+    })
+
+def checkview(request):
+    if request.method == 'POST':
+        room_name = request.POST['room_name']
+        username = request.POST['username']
+
+        user = User.objects.get(username=username)
+        
+        room, created = Room.objects.get_or_create(name=room_name)
+
+        return redirect(f'/{room.name}/?username={username}')
+    return render(request, 'create_room.html')
+
+    
+
+def send(request):
+    if request.method == 'POST':
+        message = request.POST['message']
+        username = request.POST['username']
+        room_id = request.POST['room_id']
+
+        
+
+        new_message = Message.objects.create(value= message , user = username , room = room_id)
+        new_message.save()
+        return HttpResponse('Message envoyé avec succès')
+
+
+def getMessages(request, room_name):
+    room = get_object_or_404(Room, name=room_name)
+    messages = Message.objects.filter(room=room).order_by('date')
+    return JsonResponse({"messages": list(messages.values())})
