@@ -10,7 +10,7 @@ class CommentForm(forms.ModelForm):
             }))
 
     class Meta:
-        model = Comment
+        model = PostComment
         fields = ['comment']
 
 class ThreadForm(forms.Form):

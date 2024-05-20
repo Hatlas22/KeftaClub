@@ -8,7 +8,7 @@ admin.site.register(FollowersCount)
 admin.site.register(Message)
 admin.site.register(Room)
 
-@admin.register(Comment)
+@admin.register(PostComment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('body', 'post', 'created_on')
     list_filter = ('created_on',)

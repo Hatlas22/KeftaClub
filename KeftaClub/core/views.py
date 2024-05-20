@@ -309,10 +309,12 @@ def post_detail(request, pk):
             new_comment = comment_form.save(commit=False)
             # Assign the current post to the comment
             new_comment.post = post
+            new_comment.user_comment = user_profile.id
             # Save the comment to the database
             new_comment.save()
     else:
         comment_form = CommentForm()
+    print(user_profile)
     return render(request, 'post_detail.html', {'post': post,'user_profile':user_profile,  'comments': comments,'new_comment': new_comment,'comment_form': comment_form})
 
 
