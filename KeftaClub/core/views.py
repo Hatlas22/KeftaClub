@@ -300,6 +300,7 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_object = User.objects.get(username=request.user.username)
     comments = post.comments.all()
+    print(comments)
     new_comment = None 
     user_profile = Profile.objects.get(user=user_object)
     if request.method == 'POST':
