@@ -45,26 +45,6 @@ def number_of_common_friends_map(graph, user):
 
     return common_friends_map
 
-def number_of_common_friends_ratio_map(graph, user):
-    """Returns a map from each user U to the ratio between U common friends with the given user / U total number of friends
-    The map keys are the users who have at least one friend in common with the
-    given user, and are neither the given user nor one of the given user's friends.
-    Take a graph G for example:
-        - A and B have 1/5 friends in common
-        - A and C have 1/10 friends in common
-        - A and D have 5/100 friends in common
-    number_of_common_friends_map(G, "A")  =>   { 'B': 0.2, 'C': 0.1 }
-    """
-    common_friends_map = {}
-    user_friends = friends_of_friends(graph, user)
-
-    for friend in user_friends:
-        length = len(common_friends(graph, user, friend))
-        if length >= 1:
-            common_friends_map[friend] = round((length/ len(friends(graph, friend))), 4)
-
-    return common_friends_map
-
 
 def number_map_to_sorted_list(friend_map):
     """Given a map whose values are numbers, return a list of the keys.
@@ -81,7 +61,7 @@ def recommend_by_number_of_common_friends(graph, user):
     who are not yet a friend of the given user.
     The order of the list is determined by the number of common friends.
     """
-    return number_map_to_sorted_list(number_of_common_friends_ratio_map(graph, user))
+    return number_map_to_sorted_list(number_of_common_friends_map(graph, user))
 
 
 def influence_map(graph, user):

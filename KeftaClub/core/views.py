@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User, auth
 from django.contrib import messages
 from django.http import HttpResponse , JsonResponse
@@ -110,6 +111,17 @@ def upload(request):
         return redirect('/')
     else:
         return redirect('/')
+    
+@login_required(login_url='signin')
+def delete_post(request, post_id):
+    if request.method == 'POST':
+        post = get_object_or_404(Post, id=post_id)
+        if request.user.username == post.user:
+            post.delete()
+            return JsonResponse({'success': True})
+        else:
+            return JsonResponse({'success': False, 'error': 'Unauthorized'}, status=403)
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
 
 @login_required(login_url='signin')
 def search(request):
@@ -303,19 +315,56 @@ def post_detail(request, pk):
     print(comments)
     new_comment = None 
     user_profile = Profile.objects.get(user=user_object)
+
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST)
         if comment_form.is_valid():
-            # Create Comment object but don't save to database yet
             new_comment = comment_form.save(commit=False)
-            # Assign the current post to the comment
             new_comment.post = post
-            # Save the comment to the database
+            new_comment.username = request.user.username
             new_comment.save()
-    else:
-        comment_form = CommentForm()
-    return render(request, 'post_detail.html', {'post': post,'user_profile':user_profile,  'comments': comments,'new_comment': new_comment,'comment_form': comment_form})
+            return JsonResponse({
+                'success': True,
+                'comment_id': new_comment.pk,
+                'username': new_comment.username,
+                'body': new_comment.body,
+                'created_on': new_comment.created_on.strftime('%Y-%m-%d %H:%M:%S'),
+            })
+        else:
+            return JsonResponse({'success': False, 'error': 'Invalid form data'}, status=400)
 
+    # Pour une requête GET ou toute autre requête non-AJAX POST
+    comment_form = CommentForm()
+    return render(request, 'post_detail.html', {
+        'post': post,
+        'user_profile': user_profile,
+        'comments': comments,
+        'new_comment': new_comment,
+        'comment_form': comment_form
+    })
+
+@login_required
+@require_POST
+def edit_comment_api(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.user.username != comment.username:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    form = CommentForm(request.POST, instance=comment)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success': True, 'body': comment.body})
+    else:
+        return JsonResponse({'error': 'Invalid form data'}, status=400)
+@login_required
+@require_POST
+def delete_comment_api(request, pk):
+    comment = get_object_or_404(Comment, pk=pk)
+    if request.user.username != comment.username:
+        return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+    comment.delete()
+    return JsonResponse({'success': True})
 
 #Fonction pour leq messages privé
 class ListThreads(View):

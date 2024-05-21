@@ -2,16 +2,10 @@ from .models import *
 from django import forms
 
 class CommentForm(forms.ModelForm):
-    comment = forms.CharField(
-        label='',
-        widget=forms.Textarea(attrs={
-            'rows': '3',
-            'placeholder': 'Say Something...'
-            }))
-
     class Meta:
         model = Comment
-        fields = ['comment']
+        fields = ('body',)
+
 
 class ThreadForm(forms.Form):
     username = forms.CharField(label='', max_length=100)
