@@ -58,6 +58,10 @@
 					<a data-ripple=""><button type="submit" style="background-color: #ffc0cb; border: #ffc0cb;">{{button_text}}</button></a>
 					{% endif %}(-)
 
+					{% if user_object.username != user.username %}
+					<button id="create-thread-btn" data-username="{{ user_object.username }}">Start Conversation</button>
+					{% endif %}
+
 					</div>
 				</form>
 
@@ -89,16 +93,7 @@
 									<li class="admin-name">
 									  <h5 style="color: black;white-space: nowrap; width: 110px; font-size: 27px;"><b>@{{user_profile.user.username}}</b><i class="fa fa-check-circle" style="color: #48dbfb;" aria-hidden="true"></i></h5>
 									</li>
-									<li>
-										<!--<a class="" href="settings/account-setting.html" title="" data-ripple="">Settings</a>
-										<a class="" href="javascript:void(0)" title="" data-ripple="">Upload</a>
-										<a class="" href="time-line.html" title="" data-ripple="">time line</a>
-										<a class="" href="timeline-photos.html" title="" data-ripple="">Photos</a>
-										<a class="" href="timeline-videos.html" title="" data-ripple="">Videos</a>
-										<a class="" href="timeline-friends.html" title="" data-ripple="">Friends</a>
-										<a class="" href="timeline-groups.html" title="" data-ripple="">Groups</a>-->
-
-									</li>
+							
 								</ul>
 							</div>
 						</div>
@@ -125,15 +120,7 @@
 									
 								</aside>
 							</div> 
-							
-
-
-
-
-
-
-
-
+						
 
 							<div class="col-lg-6">
 								<div class="central-meta">
@@ -167,6 +154,32 @@
 	
 	<script data-cfasync="false" src="{% static '../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js' %}"></script><script src="{% static 'js/main.min.js' %}"></script>
 	<script src="{% static 'js/script.js' %}"></script>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script>
+		$(document).ready(function() {
+			$('#create-thread-btn').click(function() {
+				var username = $(this).data('username');
+				$.ajax({
+					url: '{% url "create-thread" %}',
+					type: 'POST',
+					data: {
+						username: username,
+						csrfmiddlewaretoken: '{{ csrf_token }}'
+					},
+					success: function(response) {
+						if (response.success) {
+							window.location.href = '/inbox/' + response.thread_id + '/';
+						} else {
+							alert(response.error);
+						}
+					},
+					error: function(xhr, status, error) {
+						alert("An error occurred: " + error);
+					}
+				});
+			});
+		});
+		</script>
 
 </body>	
 

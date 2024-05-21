@@ -402,60 +402,7 @@ class ListThreads(View):
 
         return render(request, 'inbox.html', context)
     
-class CreateThread(View):
-    def get(self, request, *args, **kwargs):
-        form = ThreadForm()
 
-        context = {
-            'form': form
-        }
-
-        return render(request, 'create_thread.html', context)
-
-    def post(self, request, *args, **kwargs):
-        form = ThreadForm(request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-
-            if username == request.user.username:
-                # Avoid creating a thread with oneself
-                context = {
-                    'form': form,
-                    'error': 'You cannot create a thread with yourself.'
-                }
-                return render(request, 'create_thread.html', context)
-
-            try:
-                receiver = User.objects.get(username=username)
-            except User.DoesNotExist:
-                # If the receiver does not exist, redirect back to the create thread page with an error message
-                context = {
-                    'form': form,
-                    'error': 'User with this username does not exist.'
-                }
-                return render(request, 'create_thread.html', context)
-
-            # Check if a thread already exists between the two users
-            thread = (ThreadModel.objects.filter(user=request.user, receiver=receiver) |
-                      ThreadModel.objects.filter(user=receiver, receiver=request.user)).first()
-
-            if thread:
-                return redirect('thread', pk=thread.pk)
-
-            # Create a new thread if none exists
-            thread = ThreadModel(
-                user=request.user,
-                receiver=receiver
-            )
-            thread.save()
-            return redirect('thread', pk=thread.pk)
-        else:
-            # If the form is not valid, re-render the form with errors
-            context = {
-                'form': form
-            }
-            return render(request, 'create_thread.html', context)
 
 class ThreadView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -488,10 +435,34 @@ class CreateMessage(View):
 
         
         return redirect('thread', pk=pk)
+    
+@login_required(login_url='signin')
+def create_thread_ajax(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        if username == request.user.username:
+            return JsonResponse({'success': False, 'error': 'You cannot create a thread with yourself.'})
 
+        try:
+            receiver = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User with this username does not exist.'})
 
+        thread = (ThreadModel.objects.filter(user=request.user, receiver=receiver) |
+                  ThreadModel.objects.filter(user=receiver, receiver=request.user)).first()
+
+        if thread:
+            return JsonResponse({'success': True, 'thread_id': thread.pk})
+
+        thread = ThreadModel(user=request.user, receiver=receiver)
+        thread.save()
+        return JsonResponse({'success': True, 'thread_id': thread.pk})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+#Fonction pour le chat room
 def room(request, room_name):
-    username = request.GET.get('username')
+    username = request.user.username
     room = get_object_or_404(Room, name=room_name)
     return render(request, 'room.html', {
         'username': username,
@@ -501,7 +472,7 @@ def room(request, room_name):
 def checkview(request):
     if request.method == 'POST':
         room_name = request.POST['room_name']
-        username = request.POST['username']
+        username = request.user.username
 
         user = User.objects.get(username=username)
         
@@ -513,19 +484,17 @@ def checkview(request):
     
 
 def send(request):
-    if request.method == 'POST':
-        message = request.POST['message']
-        username = request.POST['username']
-        room_id = request.POST['room_id']
+    message = request.POST['message']
+    username = request.user.username
+    room_id = request.POST['room_id']
 
-        
-
-        new_message = Message.objects.create(value= message , user = username , room = room_id)
-        new_message.save()
-        return HttpResponse('Message envoyé avec succès')
+    new_message = Message.objects.create(value= message , user = username , room = room_id)
+    new_message.save()
+    return HttpResponse('Message envoyé avec succès')
 
 
 def getMessages(request, room_name):
-    room = get_object_or_404(Room, name=room_name)
-    messages = Message.objects.filter(room=room).order_by('date')
+    room = Room.objects.get(name=room_name)
+    messages = Message.objects.filter(room=room.id).order_by('date')
+    print(messages[0].value)  # Ajoutez ceci pour voir les messages dans la console du serveur
     return JsonResponse({"messages": list(messages.values())})
