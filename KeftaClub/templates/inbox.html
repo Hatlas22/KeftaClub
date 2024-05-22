@@ -137,28 +137,44 @@
 
 <!--Inbox content here-->
 <div class="container">
-	<div class="row">
-			<h1>Your Conversations</h3>
+    <div class="row">
+        <h1>Your Conversations and Rooms</h1>
+    </div>
 
-	</div>
+    <div class="col-md-12 p-5">
+        <a href="{% url 'checkview' %}" class="btn btn-light p-3">Create a Room</a>
+    </div>
 
-	<div class="row">
-
-        <div class="col-md-12 p-5">
-            <a href="{% url 'checkview' %}" class="btn btn-light p-3">Create a Room</a>
+    <div class="row">
+        <div class="col-md-6">
+            <!-- Section pour les conversations -->
+            <h2>Conversations</h2>
+            {% for thread in threads %}
+                <div class="card mb-3 shadow-sm">
+                    <a href="{% url 'thread' thread.pk %}" class="stretched-link">
+                        <div class="card-body">
+                            <h5>{{ thread.receiver }}</h5>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
         </div>
-
-	</div>
-
-	{% for thread in threads.all %}
-	<div class="row mb-3">
-		<div class="card col-md-12 p-5 shadow-sm">
-
-			<a class="stretched-link" href="{% url 'thread' thread.pk %}"><h5>{{ thread.receiver }}</h5></a>
-		</div>
-	</div>
-	{% endfor %}
+        <div class="col-md-6">
+            <!-- Section pour les salles de discussion -->
+            <h2>Rooms</h2>
+            {% for room in rooms %}
+                <div class="card mb-3 shadow-sm">
+                    <a href="/{{room.name}}" class="stretched-link">
+                        <div class="card-body">
+                            <h5>{{ room.name }}</h5>
+                        </div>
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 </div>
+
 <!---->
 <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
 <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>

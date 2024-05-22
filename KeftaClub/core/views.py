@@ -368,16 +368,33 @@ def delete_comment_api(request, pk):
 #Fonction pour leq messages privé
 class ListThreads(View):
     def get(self, request, *args, **kwargs):
-        threads = ThreadModel.objects.filter(Q(user=request.user) | Q(receiver=request.user))
+        # Récupérez toutes les conversations avec des messages associés
+        threads_with_messages = ThreadModel.objects.filter().distinct()
+
+        # Filtrer les conversations pour lesquelles l'utilisateur est soit le créateur soit le destinataire
+        threads = threads_with_messages.filter(Q(user=request.user) | Q(receiver=request.user))
+
+        # Récupérez tous les messages associés à ces conversations
+        messages = {}
+        for thread in threads:
+            messages[thread.pk] = MessageModel.objects.filter(thread=thread)
+
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
+       # Récupérez les identifiants des salles de discussion dans lesquelles l'utilisateur a envoyé des messages
+        room_ids_with_user_messages = Message.objects.filter(user=request.user).values_list('room', flat=True)
+
+        # Récupérez les salles de discussion correspondantes
+        rooms = Room.objects.filter(id__in=room_ids_with_user_messages)
+
+
         followers_list = []
+
 
         followers = FollowersCount.objects.filter(user=request.user.username)
 
-        for follower in followers :
-
-            user_follower = User.objects.get(username = follower.follower)
+        for follower in followers:
+            user_follower = User.objects.get(username=follower.follower)
             followers_list.append(Profile.objects.get(user=user_follower))
     
         person_who_like_user_post = []
@@ -389,16 +406,16 @@ class ListThreads(View):
                 liker_username = like.username
                 liker_user = User.objects.get(username=liker_username)
                 liker_profile = Profile.objects.get(id_user=liker_user.id)
-                person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg}) # Assuming 'profileimg' is the field name for the profile picture
-
-
-
+                person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg})
+        print(rooms)
         context = {
             'threads': threads,
+            'messages': messages,  # Passer les messages au template
             'user_profile': user_profile,
-            "followers":followers_list[:4], 
-            "person_who_liked_post":person_who_like_user_post
-            }
+            "followers": followers_list[:4], 
+            "rooms":rooms,
+            "person_who_liked_post": person_who_like_user_post
+        }
 
         return render(request, 'inbox.html', context)
     
@@ -414,7 +431,6 @@ class ThreadView(View):
             'form': form,
             'message_list': message_list
         }
-
         return render(request, 'thread.html', context)
 
 class CreateMessage(View):
@@ -496,5 +512,4 @@ def send(request):
 def getMessages(request, room_name):
     room = Room.objects.get(name=room_name)
     messages = Message.objects.filter(room=room.id).order_by('date')
-    print(messages[0].value)  # Ajoutez ceci pour voir les messages dans la console du serveur
     return JsonResponse({"messages": list(messages.values())})

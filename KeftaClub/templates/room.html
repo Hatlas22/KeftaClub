@@ -122,7 +122,6 @@
     <script>
         $(document).ready(function(){
           var display = $("#display");
-          setInterval(function(){
               $.ajax({
                   type: 'GET',
                   url : "/getMessages/{{ room.name }}/",
@@ -146,7 +145,7 @@
                       alert('An error occured')
                   }
               });
-          },1000);
+          load
       });
       </script>
 
@@ -183,7 +182,9 @@
           },
         //la  réponse HTTP pour signaler que le message a été envoyé avec succes
           success: function(data){
-           alert(data)
+           //alert(data)
+           location.reload()
+
           }
         });
         document.getElementById('message').value = ''
