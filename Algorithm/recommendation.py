@@ -46,6 +46,27 @@ def number_of_common_friends_map(graph, user):
     return common_friends_map
 
 
+def number_of_common_friends_ratio_map(graph, user):
+    """Returns a map from each user U to the ratio between U common friends with the given user / U total number of friends
+    The map keys are the users who have at least one friend in common with the
+    given user, and are neither the given user nor one of the given user's friends.
+    Take a graph G for example:
+        - A and B have 1/5 friends in common
+        - A and C have 1/10 friends in common
+        - A and D have 5/100 friends in common
+    number_of_common_friends_map(G, "A")  =>   { 'B': 0.2, 'C': 0.1 }
+    """
+    common_friends_map = {}
+    user_friends = friends_of_friends(graph, user)
+
+    for friend in user_friends:
+        length = len(common_friends(graph, user, friend))
+        if length >= 1:
+            common_friends_map[friend] = round((length/ len(friends(graph, friend))), 4)
+
+    return common_friends_map
+
+
 def number_map_to_sorted_list(friend_map):
     """Given a map whose values are numbers, return a list of the keys.
     The keys are sorted by the number they map to, from greatest to least.
@@ -61,7 +82,7 @@ def recommend_by_number_of_common_friends(graph, user):
     who are not yet a friend of the given user.
     The order of the list is determined by the number of common friends.
     """
-    return number_map_to_sorted_list(number_of_common_friends_map(graph, user))
+    return number_map_to_sorted_list(number_of_common_friends_ratio_map(graph, user))
 
 
 def influence_map(graph, user):
@@ -135,7 +156,7 @@ def user_posts(post_graph, user):
     return set(post_graph.neighbors(user))
 
 
-def number_of_like_from_user_by_post(graph, post_graph, user):
+def number_of_like_from_user_by_post(graph, post_graph, like_post, user):
     """This function takes in argument a graph that link the user with the post
     he liked. And those post are also linked with the user who posted it.
     By using the number_of_common_friends_map function, we can attribute to each
@@ -145,29 +166,34 @@ def number_of_like_from_user_by_post(graph, post_graph, user):
     
     all_friends = friends(graph, user)
     
-    friend_likes_map = number_of_common_friends_map(post_graph, user)
+    liked_posts = user_posts(like_post, user)
+    
+    friend_likes_map = {}
+    
+    for friend in all_friends:
+        friend_likes_map[friend] = len(liked_posts.intersection(user_posts(post_graph, friend)))
     
     like_influence_per_post = {}
     
     #initialise 0 for all the friends posts (because maybe you haven't already liked a single of your friend post)
     for friend in all_friends:
-        for post in user_posts(graph, friend):#get each post from all friends
+        for post in user_posts(post_graph, friend):#get each post from all friends
             like_influence_per_post[post] = 0 # initialise each post to 0
     
     #now we enter the real loop that will attribute a number of like to each post
     for friend in friend_likes_map:
-        for post in user_posts(graph, friend):#get each post from each friend
+        for post in user_posts(post_graph, friend):#get each post from each friend
             like_influence_per_post[post] = friend_likes_map[friend] # give to each post the score of the friend
         
     
     return like_influence_per_post
 
 
-def recommend_by_number_of_like_per_user_posts(graph, user):
+def recommend_by_number_of_like_per_user_posts(graph, post_graph, like_post, user):
     """Return a list of post recommendations for the given user based on the total number
     of likes the user gave to his friend.
     """
-    return number_map_to_sorted_list(number_of_like_from_user_by_post(graph, post_graph, user))
+    return number_map_to_sorted_list(number_of_like_from_user_by_post(graph, post_graph, like_post, user))
 
 
 
@@ -181,45 +207,44 @@ def recommend_by_number_of_like(post_like_map):
     return number_map_to_sorted_list(post_like_map)
 
 
-def number_of_common_interest_with_post(posts, post_interest_graph, user):
+def number_of_common_interest_with_post(graph, interest_graph, post_graph, post_interest_graph, user):
     """Return a map where each post get assigned the number of common interest
     it has with the user
     """
+    all_friends = friends(graph, user)
     
-    user_interest = interests(post_interest_graph, user)
+    user_interest = interests(interest_graph, user)
+    
+    friends_posts = set()
+    
+    for friend in all_friends:
+        friends_posts.update(user_posts(post_graph, friend))
     
     common_interest_post_map = {}
     
-    for post in posts:
+    for post in friends_posts:
         common_interest_post_map[post] = len(user_interest.intersection(interests(post_interest_graph, post)))
         
         
     return common_interest_post_map
         
 
-def recommend_by_number_of_like(posts, post_interest_graph, user):
+def recommend_by_common_interest_with_post(graph, interest_graph, post_graph, post_interest_graph, user):
     """Return a list of post recommendations based on the number of common interest
     you share with the post.
     """
-    return number_map_to_sorted_list(number_of_common_interest_with_post(posts, post_interest_graph, user))
-
-"""
-def  
-    
+    return number_map_to_sorted_list(number_of_common_interest_with_post(graph, interest_graph, post_graph, post_interest_graph, user))
 
 
 
-def recommend_posts_by_friend_relation(graph, post_graph, user):
-    user_friend = friends(graph, user)
-    user_foaf = friends_of_friends(graph, user)
+def recommend_by_publication_date(nb_hours_pub_date_map):
+    """Return a list of post recommendations based on the publication date.
+    The most recent will be first, the oldest will be last.
+    """
+    return number_map_to_sorted_list(nb_hours_pub_date_map)[::-1]#to reverse order
     
-    friend_score_map = {}
+
+
     
-    for friend in user_friend:
-        friend_score_map 
-        
-    #Pas fini
-    return
     
-""" 
     
