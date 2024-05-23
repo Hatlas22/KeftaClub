@@ -369,16 +369,33 @@ def delete_comment_api(request, pk):
 #Fonction pour leq messages privé
 class ListThreads(View):
     def get(self, request, *args, **kwargs):
-        threads = ThreadModel.objects.filter(Q(user=request.user) | Q(receiver=request.user))
+        # Récupérez toutes les conversations avec des messages associés
+        threads_with_messages = ThreadModel.objects.filter().distinct()
+
+        # Filtrer les conversations pour lesquelles l'utilisateur est soit le créateur soit le destinataire
+        threads = threads_with_messages.filter(Q(user=request.user) | Q(receiver=request.user))
+
+        # Récupérez tous les messages associés à ces conversations
+        messages = {}
+        for thread in threads:
+            messages[thread.pk] = MessageModel.objects.filter(thread=thread)
+
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
+       # Récupérez les identifiants des salles de discussion dans lesquelles l'utilisateur a envoyé des messages
+        room_ids_with_user_messages = Message.objects.filter(user=request.user).values_list('room', flat=True)
+
+        # Récupérez les salles de discussion correspondantes
+        rooms = Room.objects.filter(id__in=room_ids_with_user_messages)
+
+
         followers_list = []
+
 
         followers = FollowersCount.objects.filter(user=request.user.username)
 
-        for follower in followers :
-
-            user_follower = User.objects.get(username = follower.follower)
+        for follower in followers:
+            user_follower = User.objects.get(username=follower.follower)
             followers_list.append(Profile.objects.get(user=user_follower))
     
         person_who_like_user_post = []
@@ -390,73 +407,20 @@ class ListThreads(View):
                 liker_username = like.username
                 liker_user = User.objects.get(username=liker_username)
                 liker_profile = Profile.objects.get(id_user=liker_user.id)
-                person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg}) # Assuming 'profileimg' is the field name for the profile picture
-
-
-
+                person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg})
+        print(rooms)
         context = {
             'threads': threads,
+            'messages': messages,  # Passer les messages au template
             'user_profile': user_profile,
-            "followers":followers_list[:4], 
-            "person_who_liked_post":person_who_like_user_post
-            }
+            "followers": followers_list[:4], 
+            "rooms":rooms,
+            "person_who_liked_post": person_who_like_user_post
+        }
 
         return render(request, 'inbox.html', context)
     
-class CreateThread(View):
-    def get(self, request, *args, **kwargs):
-        form = ThreadForm()
 
-        context = {
-            'form': form
-        }
-
-        return render(request, 'create_thread.html', context)
-
-    def post(self, request, *args, **kwargs):
-        form = ThreadForm(request.POST)
-
-        if form.is_valid():
-            username = form.cleaned_data.get('username')
-
-            if username == request.user.username:
-                # Avoid creating a thread with oneself
-                context = {
-                    'form': form,
-                    'error': 'You cannot create a thread with yourself.'
-                }
-                return render(request, 'create_thread.html', context)
-
-            try:
-                receiver = User.objects.get(username=username)
-            except User.DoesNotExist:
-                # If the receiver does not exist, redirect back to the create thread page with an error message
-                context = {
-                    'form': form,
-                    'error': 'User with this username does not exist.'
-                }
-                return render(request, 'create_thread.html', context)
-
-            # Check if a thread already exists between the two users
-            thread = (ThreadModel.objects.filter(user=request.user, receiver=receiver) |
-                      ThreadModel.objects.filter(user=receiver, receiver=request.user)).first()
-
-            if thread:
-                return redirect('thread', pk=thread.pk)
-
-            # Create a new thread if none exists
-            thread = ThreadModel(
-                user=request.user,
-                receiver=receiver
-            )
-            thread.save()
-            return redirect('thread', pk=thread.pk)
-        else:
-            # If the form is not valid, re-render the form with errors
-            context = {
-                'form': form
-            }
-            return render(request, 'create_thread.html', context)
 
 class ThreadView(View):
     def get(self, request, pk, *args, **kwargs):
@@ -468,7 +432,6 @@ class ThreadView(View):
             'form': form,
             'message_list': message_list
         }
-
         return render(request, 'thread.html', context)
 
 class CreateMessage(View):
@@ -489,10 +452,34 @@ class CreateMessage(View):
 
         
         return redirect('thread', pk=pk)
+    
+@login_required(login_url='signin')
+def create_thread_ajax(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        if username == request.user.username:
+            return JsonResponse({'success': False, 'error': 'You cannot create a thread with yourself.'})
 
+        try:
+            receiver = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'User with this username does not exist.'})
 
+        thread = (ThreadModel.objects.filter(user=request.user, receiver=receiver) |
+                  ThreadModel.objects.filter(user=receiver, receiver=request.user)).first()
+
+        if thread:
+            return JsonResponse({'success': True, 'thread_id': thread.pk})
+
+        thread = ThreadModel(user=request.user, receiver=receiver)
+        thread.save()
+        return JsonResponse({'success': True, 'thread_id': thread.pk})
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request'}, status=400)
+
+#Fonction pour le chat room
 def room(request, room_name):
-    username = request.GET.get('username')
+    username = request.user.username
     room = get_object_or_404(Room, name=room_name)
     return render(request, 'room.html', {
         'username': username,
@@ -502,7 +489,7 @@ def room(request, room_name):
 def checkview(request):
     if request.method == 'POST':
         room_name = request.POST['room_name']
-        username = request.POST['username']
+        username = request.user.username
 
         user = User.objects.get(username=username)
         
@@ -514,19 +501,16 @@ def checkview(request):
     
 
 def send(request):
-    if request.method == 'POST':
-        message = request.POST['message']
-        username = request.POST['username']
-        room_id = request.POST['room_id']
+    message = request.POST['message']
+    username = request.user.username
+    room_id = request.POST['room_id']
 
-        
-
-        new_message = Message.objects.create(value= message , user = username , room = room_id)
-        new_message.save()
-        return HttpResponse('Message envoyé avec succès')
+    new_message = Message.objects.create(value= message , user = username , room = room_id)
+    new_message.save()
+    return HttpResponse('Message envoyé avec succès')
 
 
 def getMessages(request, room_name):
-    room = get_object_or_404(Room, name=room_name)
-    messages = Message.objects.filter(room=room).order_by('date')
+    room = Room.objects.get(name=room_name)
+    messages = Message.objects.filter(room=room.id).order_by('date')
     return JsonResponse({"messages": list(messages.values())})
