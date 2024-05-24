@@ -1,4 +1,4 @@
-
+from datetime import datetime, timedelta
 
 def friends(graph, user):
     """Returns a set of the friends of the given user, in the given graph"""
@@ -242,9 +242,88 @@ def recommend_by_publication_date(nb_hours_pub_date_map):
     The most recent will be first, the oldest will be last.
     """
     return number_map_to_sorted_list(nb_hours_pub_date_map)[::-1]#to reverse order
+   
+
+def calculate_hours_since_post(posts_dates):
+    """
+    Takes a dictionnary with post id as key and publication date as value and
+    returns a dictionnary with post id as key and number of hours since it was posted
+    """
+    
+    current_time = datetime.now()
+    hours_since_post = {}
+    
+    for post_id, post_date in posts_dates:
+        post_datetime = datetime.strptime(post_date, "%Y-%m-%d %H:%M:%S")
+        delta = current_time - post_datetime
+        hours_since_post[post_id] = delta.total_seconds() // 3600  # Convert seconds to hours
+    
+    return hours_since_post
+
+
+###### FINAL ALGORITHMS #######
+
+def friends_recommandation_algorithm(graph, interest_graph, user):
+    """Return the final list of recommanded user based on the mean result of 
+    - The rif algorithm.
+    - The rcf algorithm.
+    - The rfi algorithm.
+    The function also returns the number of common friend and the number of
+    common interest shared with the recommanded users
+    """
+    
+    rcf_map = number_of_common_friends_map(graph, user)
+    rfi_map = number_of_common_interest_map(graph, interest_graph, user)
+    
+    rcf_result = recommend_by_number_of_common_friends(graph, user) 
+    rif_result = recommend_by_influence(graph, user) 
+    rfi_result = recommend_by_common_friends_interest(graph, interest_graph, user) 
+    
+    all_result = [rcf_result, rif_result, rfi_result]
+    
+    moyennes = {x: sum(i for l in all_result for i, y in enumerate(l) if y == x) / len(all_result) for x in set().union(*all_result)}
+    
+    return sorted(moyennes, key=moyennes.get), rcf_map, rfi_map
+       
     
 
+def posts_recommandation_algorithm(graph, interest_graph, user_post_graph, like_post_graph, post_category_graph,post_likes_count, posts_date, user):
+    """Return the final list of recommanded user based on the mean result of 
+    - The rlp algorithm. (recommend_by_number_of_like_per_user_posts)
+    - The rnl algorithm. (recommend_by_number_of_like)
+    - The rip algorithm. (recommend_by_common_interest_with_post)
+    - The rpd algorithm. (recommend_by_publication_date)
+    The function also returns the number of common friend and the number of
+    common interest shared with the recommanded users
+    """
 
+    rlp_result = recommend_by_number_of_like_per_user_posts(graph,user_post_graph,like_post_graph, user) # nb like de toi
+    rnl_result = recommend_by_number_of_like(post_likes_count) 
+    rip_result = recommend_by_common_interest_with_post(graph, interest_graph, user_post_graph, post_category_graph, user) 
+    
+    first_step_posts = [rlp_result, rnl_result, rip_result]
+    
+    #Mean of the first 3 lists
+    first_step_ranking = {x: sum(i for l in first_step_posts for i, y in enumerate(l) if y == x) / len(first_step_posts) for x in set().union(*first_step_posts)}
+    first_ranking = sorted(first_step_ranking, key=first_step_ranking.get)
+    
+    #Date ranking list
+    rpd_result = recommend_by_publication_date(calculate_hours_since_post(posts_date)) 
+    print(rpd_result)
+
+    
+    final_step_posts = [first_ranking, rpd_result]
+    
+    #Final Mean of the 2 lists
+    final_step_ranking = {x: sum(i for l in final_step_posts for i, y in enumerate(l) if y == x) / len(final_step_posts) for x in set().union(*final_step_posts)}
+    final_ranking = sorted(final_step_ranking, key=final_step_ranking.get)
+
+    return final_ranking
+    
+    
+    
+    
+    
     
     
     
