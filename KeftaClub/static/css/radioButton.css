@@ -1,0 +1,11 @@
+.radio-container {
+    display: inline-block;
+    margin-right: 10px; 
+    background-color: #922020;
+}
+
+
+.radio-container label {
+    display: inline-block;
+    color: #922020;
+}
