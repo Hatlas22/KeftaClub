@@ -474,12 +474,16 @@ class ListThreads(View):
         threads_with_messages = ThreadModel.objects.filter().distinct()
 
         # Filtrer les conversations pour lesquelles l'utilisateur est soit le créateur soit le destinataire
-        threads = threads_with_messages.filter(Q(user=request.user) | Q(receiver=request.user))
+        all_threads = threads_with_messages.filter(Q(user=request.user) | Q(receiver=request.user))
 
         # Récupérez tous les messages associés à ces conversations
         messages = {}
-        for thread in threads:
-            messages[thread.pk] = MessageModel.objects.filter(thread=thread)
+        no_null_thread = []
+        for thread in all_threads:
+            # Vérifiez si le thread a au moins un message associé
+            if MessageModel.objects.filter(thread=thread).exists():
+                messages[thread.pk] = MessageModel.objects.filter(thread=thread)
+                no_null_thread.append(thread)
 
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
@@ -509,9 +513,8 @@ class ListThreads(View):
                 liker_user = User.objects.get(username=liker_username)
                 liker_profile = Profile.objects.get(id_user=liker_user.id)
                 person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg})
-        print(rooms)
         context = {
-            'threads': threads,
+            'threads': no_null_thread,
             'messages': messages,  # Passer les messages au template
             'user_profile': user_profile,
             "followers": followers_list[:4], 
