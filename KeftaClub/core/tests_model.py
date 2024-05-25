@@ -4,7 +4,7 @@ from .models import *
 from datetime import datetime
 import uuid
 
-# Profile Model Test
+
 class ProfileModelTest(TestCase):
 
     def setUp(self):
@@ -15,39 +15,68 @@ class ProfileModelTest(TestCase):
             user=self.user,
             id_user=self.user.id,
             bio='This is a test bio',
+            location='Test Location',
             birthDate=datetime(2000, 1, 1),
-            favoriteMeat='Beef',
+            favoriteSpicyness='Medium',
             favoriteCooking='Grilling',
-            favoriteRegion='North America'
+            favoriteOrigin='Mediterranean'
         )
         self.assertEqual(profile.user.username, 'testuser')
         self.assertEqual(profile.bio, 'This is a test bio')
+        self.assertEqual(profile.location, 'Test Location')
         self.assertEqual(profile.birthDate, datetime(2000, 1, 1))
-        self.assertEqual(profile.favoriteMeat, 'Beef')
+        self.assertEqual(profile.favoriteSpicyness, 'Medium')
         self.assertEqual(profile.favoriteCooking, 'Grilling')
-        self.assertEqual(profile.favoriteRegion, 'North America')
+        self.assertEqual(profile.favoriteOrigin, 'Mediterranean')
+        self.assertEqual(profile.get_photo_url, 'KeftaClubKeftaClub\media\blank-profile-picture.png')
 
-# Post Model Test
+    def test_profile_default_values(self):
+        profile = Profile.objects.create(
+            user=self.user,
+            id_user=self.user.id
+        )
+        self.assertEqual(profile.bio, '')
+        self.assertEqual(profile.location, '')
+        self.assertEqual(profile.birthDate, datetime(2000, 1, 1))
+        self.assertEqual(profile.favoriteSpicyness, 'unspecified')
+        self.assertEqual(profile.favoriteCooking, 'unspecified')
+        self.assertEqual(profile.favoriteOrigin, 'unspecified')
+        self.assertEqual(profile.profileimg.name, 'profile_images/blank-profile-picture.png')
+
+    def test_profile_str(self):
+        profile = Profile.objects.create(
+            user=self.user,
+            id_user=self.user.id
+        )
+        self.assertEqual(str(profile), 'testuser')
+
+    def test_get_photo_url_with_image(self):
+        profile = Profile.objects.create(
+            user=self.user,
+            id_user=self.user.id,
+            profileimg='profile_images/test_image.png'
+        )
+        self.assertEqual(profile.get_photo_url, 'profile_images/test_image.png')
+
 class PostModelTest(TestCase):
 
     def test_post_creation(self):
         post = Post.objects.create(
             user='testuser',
             caption='This is a test post',
-            Meat='Chicken',
-            Cooking='Roasting',
-            Region='Europe',
-            location='Paris'
+            Spicyness='Mild',
+            Cooking='Baking',
+            Origin='Italian',
+            location='Rome'
         )
         self.assertEqual(post.user, 'testuser')
         self.assertEqual(post.caption, 'This is a test post')
-        self.assertEqual(post.Meat, 'Chicken')
-        self.assertEqual(post.Cooking, 'Roasting')
-        self.assertEqual(post.Region, 'Europe')
-        self.assertEqual(post.location, 'Paris')
+        self.assertEqual(post.Spicyness, 'Mild')
+        self.assertEqual(post.Cooking, 'Baking')
+        self.assertEqual(post.Origin, 'Italian')
+        self.assertEqual(post.location, 'Rome')
         self.assertIsInstance(post.id, uuid.UUID)
 
-# LikePost Model Test
 class LikePostModelTest(TestCase):
 
     def test_like_post_creation(self):
@@ -55,7 +84,6 @@ class LikePostModelTest(TestCase):
         self.assertEqual(like.post_id, '1234')
         self.assertEqual(like.username, 'testuser')
 
-# FollowersCount Model Test
 class FollowersCountModelTest(TestCase):
 
     def test_followers_count_creation(self):
@@ -63,7 +91,6 @@ class FollowersCountModelTest(TestCase):
         self.assertEqual(follower_count.follower, 'testfollower')
         self.assertEqual(follower_count.user, 'testuser')
 
-# Comment Model Test
 class CommentModelTest(TestCase):
 
     def setUp(self):
@@ -75,7 +102,6 @@ class CommentModelTest(TestCase):
         self.assertEqual(comment.body, 'This is a test comment')
         self.assertEqual(comment.username, 'testuser')
 
-# ThreadModel and MessageModel Test
 class ThreadMessageModelTest(TestCase):
 
     def setUp(self):
@@ -99,7 +125,6 @@ class ThreadMessageModelTest(TestCase):
         self.assertEqual(message.receiver_user, self.user2)
         self.assertEqual(message.body, 'This is a test message')
 
-# Room and Message Model Test
 class RoomMessageModelTest(TestCase):
 
     def test_room_creation(self):
