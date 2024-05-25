@@ -196,9 +196,9 @@ def upload(request):
         image = request.FILES.get('image_upload')
         caption = request.POST['caption']
         
-        spicyness = request.POST['meat']
+        origin = request.POST['meat']
         cooking = request.POST['cooking']
-        origin = request.POST['region']
+        spicyness = request.POST['region']
         location = request.POST['location']
 
         #Check if a location was entered
@@ -323,9 +323,9 @@ def settings(request):
             image = user_profile.profileimg
             bio = request.POST['bio']
             location = request.POST['location']
-            favoriteSpicyness = request.POST['favoriteMeat']
+            favoriteOrigin = request.POST['favoriteMeat']
             favoriteCooking = request.POST['favoriteCooking']
-            favoriteOrigin  = request.POST['favoriteRegion']
+            favoriteSpicyness  = request.POST['favoriteRegion']
 
             user_profile.profileimg = image
             user_profile.bio = bio
