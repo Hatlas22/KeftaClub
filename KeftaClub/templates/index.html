@@ -89,38 +89,33 @@
                                         <br>
                                         <div class="inline-select">
                                             <div>
-                                                <label for="meat">Meat</label>
+                                                <label for="meat">Origin</label>
                                                 <select id="meat" name="meat">
-                                                    <option value="beef">Beef</option>
-                                                    <option value="lamb">Lamb</option>
-                                                    <option value="mutton">Mutton</option>
-                                                    <option value="chicken">Chicken</option>
-                                                    <option value="fish">Fish</option>
-                                                    <option value="vegetarian">Vegetarian</option>
-                                                    <option value="unspecified">don't know</option>
+                                                    <option value="Failed Experiment">Failed Experiment</option>
+                                                    <option value="Leftovers">Leftovers</option>
+                                                    <option value="Expired food">Expired food</option>
+                                                    <option value="Wicked Intention">Wicked Intention</option>
                                                 </select>
                                             </div>
                 
                                             <div>
                                                 <label for="cooking">Cooking</label>
                                                 <select id="cooking" name="cooking">
-                                                    <option value="grilled">Grilled</option>
-                                                    <option value="sauce">In Sauce</option>
-                                                    <option value="fried">Fried</option>
-                                                    <option value="raw">Raw</option>
-                                                    <option value="unspecified">don't know</option>
+                                                    <option value="raw">raw</option>
+                                                    <option value="raw (probably still alive)">raw (probably alive)</option>
+                                                    <option value="burnt">burnt</option>
+                                                    <option value="insanely burnt">insanely burnt</option>
+                                                    <option value="calcinated">calcinated</option>
                                                 </select>
                                             </div>
                             
                                             <div>
-                                                <label for="region">Region</label>
+                                                <label for="region">Spicy</label>
                                                 <select id="region" name="region">
-                                                    <option value="moroccan">Moroccan</option>
-                                                    <option value="lebanese">Lebanese</option>
-                                                    <option value="turkish">Turkish</option>
-                                                    <option value="armenian">Armenian</option>
-                                                    <option value="indian">Indian</option>
-                                                    <option value="unspecified">don't know</option>
+                                                    <option value="0">0</option>
+                                                    <option value="1">1</option>
+                                                    <option value="2">2</option>
+                                                    <option value="3">MY MOUTH!!!</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -128,15 +123,9 @@
                                     <button class="button bg-blue-700" type="submit">Upload</button>
                                 </div>
 
-                                        
-            
-                                        
-
                             </form>
 
-                            <a href="#" class="uk-text-muted mt-3 uk-link"
-                                uk-toggle="target: .choose-upload ;  animation: uk-animation-slide-right-small, uk-animation-slide-left-medium; queued: true">
-                                Or Import Video </a>
+                            
                         </div>
 
                         <div class="uk-flex uk-flex-column choose-upload" hidden>
@@ -159,15 +148,11 @@
                                 <div class="uk-width-auto"> <button type="submit" class="button soft-warning -ml-2">
                                         Import </button> </div>
                             </form>
-                            <a href="#" class="uk-text-muted mt-3 uk-link"
-                                uk-toggle="target: .choose-upload ; animation: uk-animation-slide-left-small, uk-animation-slide-right-medium; queued: true">
-                                Or Upload Video </a>
+                            
                         </div>
 
                     </div>
-                    <div class="px-4 py-3 -mx-5 -mb-4 mt-5 border-t text-sm">
-                        Your Image size Must be Maxmium 999MB
-                    </div>
+                    
                 </div>
 
 
