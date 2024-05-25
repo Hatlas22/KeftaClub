@@ -11,6 +11,11 @@ import random
 from django.views import View
 from django.db.models import Q
 from django.urls import reverse_lazy
+from datetime import datetime, timedelta
+import networkx as nx
+#Recommandation algorithms
+from .Algorithm.recommendation import friends_recommandation_algorithm as fra
+from .Algorithm.recommendation import posts_recommandation_algorithm as pra
 # Create your views here.
 
 @login_required(login_url='signin')
@@ -19,6 +24,92 @@ def index(request):
     user_profile = Profile.objects.get(user=user_object)
     user_post = Post.objects.filter(user=user_object)
     user_receive_msg = MessageModel.objects.filter(receiver_user_id=request.user.id).order_by("-date")
+
+    #####################################
+    #### SECTION DE TEST DE L'ALGO ######
+    #####################################
+
+    # Tout les profils
+    profiles = list(Profile.objects.all())
+    all_profiles = [profile.user.username for profile in profiles]
+
+    # Tout les posts
+    posts = list(Post.objects.all())
+    all_posts = [str(post.id) for post in posts]
+
+    # Les likes par posts
+    posts_likes_dict = {post : LikePost.objects.filter(post_id=post).count() for post in all_posts}
+
+    # Les posts par date de création
+    posts_creation_date_dict = [(str(post.id), (post.created_at).strftime("%Y-%m-%d %H:%M:%S")) for post in Post.objects.all()]
+
+    # Les relations entre les utilisateurs
+    follow_relationships = [(follow.follower, follow.user) for follow in FollowersCount.objects.all()]
+
+    # Les profils et leurs catégories préférée
+    u_fav = [[(profile.user.username, profile.favoriteSpicyness),(profile.user.username, profile.favoriteOrigin), (profile.user.username, profile.favoriteCooking)] for profile in Profile.objects.all()]
+    users_favorites = list(chain(*u_fav))
+    # Les utilisateurs et leurs posts
+    users_posts = [(post.user, str(post.id)) for post in Post.objects.all()]
+
+    
+    #Trier les likes des 7 derniers jours seulements
+    seven_days_ago = datetime.now() - timedelta(days=7)
+    users_liked_posts = [(like.username, like.post_id) for like in LikePost.objects.filter(created_on__gte=seven_days_ago)]
+
+    # Récupération des posts et de leurs 3 catégories
+    p_cat = [[(str(post.id), post.Spicyness),(str(post.id), post.Origin),(str(post.id), post.Cooking)] for post in Post.objects.all()]
+    posts_categories = list(chain(*p_cat))
+
+    #Modalités en mode bruts
+    modalities = [
+        "Failed Experiment", "Leftovers", "Expired food", "not sure",
+        "raw", "raw (probably still alive)", "burnt", "insanely burnt", "calcinated", "Probably radioactive",
+        "0", "1", "2", "3", "unspecified"
+    ]
+
+
+    #Relationship Graph
+    rj_graph = nx.Graph()
+    rj_graph.add_nodes_from(all_profiles)
+    rj_graph.add_edges_from(follow_relationships)
+
+    #Interest Graph
+    i_graph = nx.Graph()
+    i_graph.add_nodes_from(all_profiles)
+    i_graph.add_edges_from(users_favorites)
+
+    #User Post Graph
+    up_graph = nx.Graph()
+    up_graph.add_nodes_from(all_profiles)
+    up_graph.add_edges_from(users_posts)
+
+    #User Like Post Graph
+    lp_graph = nx.Graph()
+    lp_graph.add_nodes_from(all_profiles)
+    lp_graph.add_edges_from(users_liked_posts)
+
+    #Post category Graph
+    pc_graph = nx.Graph()
+    pc_graph.add_nodes_from(modalities)
+    pc_graph.add_edges_from(posts_categories)
+
+
+
+    #### EXECUTION DES ALGORITHMS DE RECOMMANDATION ###
+
+    
+    friends_recommendation, nb_friend_map, nb_interest_map = fra(rj_graph, i_graph, user_profile.user.username)
+
+    posts_recommendation = pra(rj_graph, i_graph, up_graph, lp_graph, pc_graph, posts_likes_dict,
+                                posts_creation_date_dict, user_profile.user.username)
+    
+
+
+    #####################################
+    ############### FIN #################
+    #####################################
+
     
     person_who_like_user_post = []
     for post in user_post:
@@ -48,30 +139,40 @@ def index(request):
     for sender in user_receive_msg :
         author_msg = User.objects.get(id=sender.sender_user_id)
         user_sender.append({"sender_name":author_msg.username,"message_date":sender.date,"thread":sender.thread_id})
+    
     for follower in followers :
 
         user_follower = User.objects.get(username = follower.follower)
         followers_list.append(Profile.objects.get(user=user_follower))
 
-    for usernames in user_following_list:
-        feed_lists = Post.objects.filter(user=usernames)
+    for post in posts_recommendation:
+        feed_lists = Post.objects.filter(id=post)
         feed.append(feed_lists)
 
     #The user feed is then contained here
-    feed_list = list(chain(*feed))
-
+    
+    feed_list = list(chain(*feed))[::-1]
+    
     # user suggestion starts
     all_users = User.objects.all()
     user_following_all = []
+    final_suggestions_list = []
 
     for user in user_following:
         user_list = User.objects.get(username=user.user)
         user_following_all.append(user_list)
     
-    new_suggestions_list = [x for x in list(all_users) if (x not in list(user_following_all))]
+    for recommended_user in friends_recommendation:
+        user_list = User.objects.get(username=recommended_user)
+        final_suggestions_list.append(user_list)
+
+    ## MERGE DU CODE PRECEDENT AU NOUVEL ALGO DE RECOMMANDATION
+    new_suggestions_list = [x for x in list(all_users) if (x not in list(user_following_all) and x not in list(final_suggestions_list))]
     current_user = User.objects.filter(username=request.user.username)
-    final_suggestions_list = [x for x in list(new_suggestions_list) if ( x not in list(current_user))]
-    random.shuffle(final_suggestions_list) # ---------- ligne a changer ----------
+    suggestions_list = [x for x in list(new_suggestions_list) if ( x not in list(current_user))]
+    random.shuffle(suggestions_list) # ---------- ligne a changer ----------
+
+    final_suggestions_list.extend(suggestions_list)
 
     username_profile = []
     username_profile_list = []
@@ -94,10 +195,10 @@ def upload(request):
         user = request.user.username
         image = request.FILES.get('image_upload')
         caption = request.POST['caption']
-
-        meat = request.POST['meat']
+        
+        spicyness = request.POST['meat']
         cooking = request.POST['cooking']
-        region = request.POST['region']
+        origin = request.POST['region']
         location = request.POST['location']
 
         #Check if a location was entered
@@ -105,7 +206,7 @@ def upload(request):
             location = "unknown"
 
         new_post = Post.objects.create(user=user, image=image, caption=caption, 
-                                       Meat=meat, Cooking=cooking, Region=region, location=location)
+                                       Spicyness=spicyness, Cooking=cooking, Origin=origin, location=location)
         new_post.save()
 
         return redirect('/')
@@ -222,16 +323,16 @@ def settings(request):
             image = user_profile.profileimg
             bio = request.POST['bio']
             location = request.POST['location']
-            favoriteMeat = request.POST['favoriteMeat']
+            favoriteSpicyness = request.POST['favoriteMeat']
             favoriteCooking = request.POST['favoriteCooking']
-            favoriteRegion  = request.POST['favoriteRegion']
+            favoriteOrigin  = request.POST['favoriteRegion']
 
             user_profile.profileimg = image
             user_profile.bio = bio
             user_profile.location = location
-            user_profile.favoriteMeat = favoriteMeat   
+            user_profile.favoriteSpicyness = favoriteSpicyness   
             user_profile.favoriteCooking = favoriteCooking
-            user_profile.favoriteRegion = favoriteRegion 
+            user_profile.favoriteOrigin = favoriteOrigin 
 
             user_profile.save()
 
@@ -312,6 +413,7 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_object = User.objects.get(username=request.user.username)
     comments = post.comments.all()
+    print(comments)
     new_comment = None 
     user_profile = Profile.objects.get(user=user_object)
 
