@@ -46,9 +46,10 @@ class Post(models.Model):
         return self.user
 
 class LikePost(models.Model):
+    now = timezone.now()
     post_id = models.CharField(max_length=500)
     username = models.CharField(max_length=100)
-    created_on = models.DateTimeField(default=timezone.now)
+    created_on = models.DateTimeField(default=datetime.now)
 
     def __str__(self):
         return self.username

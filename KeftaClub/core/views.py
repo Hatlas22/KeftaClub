@@ -23,8 +23,6 @@ from .Algorithm.recommendation import posts_recommandation_algorithm as pra
 def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    user_post = Post.objects.filter(user=user_object)
-    user_receive_msg = MessageModel.objects.filter(receiver_user_id=request.user.id).order_by("-date")
 
     #####################################
     #### SECTION DE TEST DE L'ALGO ######
@@ -142,9 +140,22 @@ def index(request):
 
     for post in posts_recommendation:
         feed_lists = Post.objects.filter(id=post)
+        #profilepicture = Profile.objects.get(user=User.objects.get(username=follower.follower).id)
         feed.append(feed_lists)
 
     feed_list = list(chain(*feed))[::-1]
+
+    new_feed = []
+
+    for  post in feed_list:
+        username = User.objects.get(username=post.user)
+        profile_pic = Profile.objects.get(user=username.id)
+        new_feed.append({
+            'post' : post,
+            'profile' : profile_pic.profileimg.url
+        })
+
+    print(new_feed[0]['profile'])
     
     # user suggestion starts
     all_users = User.objects.all()
@@ -183,7 +194,7 @@ def index(request):
 
     context = {
         'user_profile': user_profile,
-        'posts': feed_list,
+        'posts': new_feed,
         'suggestions_username_profile_list': suggestions_username_profile_list[:4],
         'followers': followers_list[:4]
     }
