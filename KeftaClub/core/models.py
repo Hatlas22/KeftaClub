@@ -15,9 +15,9 @@ class Profile(models.Model):
     location = models.CharField(max_length=100, blank=True)
     #Added section
     birthDate = models.DateTimeField(default=datetime.fromisoformat("2000-01-01"))
-    favoriteSpicyness =models.CharField(max_length=100, default="unspecified")
-    favoriteCooking =models.CharField(max_length=100, default="unspecified")
-    favoriteOrigin =models.CharField(max_length=100, default="unspecified")
+    favoriteSpicyness =models.CharField(max_length=100, default="0")
+    favoriteCooking =models.CharField(max_length=100, default="burnt")
+    favoriteOrigin =models.CharField(max_length=100, default="Leftovers")
     
     @property
     def get_photo_url(self):
@@ -36,9 +36,9 @@ class Post(models.Model):
     created_at = models.DateTimeField(default=datetime.now)
     no_of_likes = models.IntegerField(default=0)
     #Added section
-    Spicyness =models.CharField(max_length=100, default="unspecified")
-    Cooking =models.CharField(max_length=100, default="unspecified")
-    Origin =models.CharField(max_length=100, default="unspecified")
+    Spicyness =models.CharField(max_length=100, default="0")
+    Cooking =models.CharField(max_length=100,  default="burnt")
+    Origin =models.CharField(max_length=100,  default="Leftovers")
     location = models.CharField(max_length=100, default="unknown")
 
 

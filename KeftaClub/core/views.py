@@ -198,9 +198,9 @@ def upload(request):
         image = request.FILES.get('image_upload')
         caption = request.POST['caption']
         
-        spicyness = request.POST['meat']
+        origin = request.POST['meat']
         cooking = request.POST['cooking']
-        origin = request.POST['region']
+        spicyness = request.POST['region']
         location = request.POST['location']
 
         #Check if a location was entered
@@ -325,9 +325,9 @@ def settings(request):
             image = user_profile.profileimg
             bio = request.POST['bio']
             location = request.POST['location']
-            favoriteSpicyness = request.POST['favoriteMeat']
+            favoriteOrigin = request.POST['favoriteMeat']
             favoriteCooking = request.POST['favoriteCooking']
-            favoriteOrigin  = request.POST['favoriteRegion']
+            favoriteSpicyness  = request.POST['favoriteRegion']
 
             user_profile.profileimg = image
             user_profile.bio = bio
@@ -415,7 +415,6 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_object = User.objects.get(username=request.user.username)
     comments = post.comments.all()
-    print(comments)
     new_comment = None 
     user_profile = Profile.objects.get(user=user_object)
 
@@ -469,19 +468,23 @@ def delete_comment_api(request, pk):
     comment.delete()
     return JsonResponse({'success': True})
 
-#Fonction pour leq messages privé
+#Fonction pour les messages privé
 class ListThreads(View):
     def get(self, request, *args, **kwargs):
         # Récupérez toutes les conversations avec des messages associés
         threads_with_messages = ThreadModel.objects.filter().distinct()
 
         # Filtrer les conversations pour lesquelles l'utilisateur est soit le créateur soit le destinataire
-        threads = threads_with_messages.filter(Q(user=request.user) | Q(receiver=request.user))
+        all_threads = threads_with_messages.filter(Q(user=request.user) | Q(receiver=request.user))
 
         # Récupérez tous les messages associés à ces conversations
         messages = {}
-        for thread in threads:
-            messages[thread.pk] = MessageModel.objects.filter(thread=thread)
+        no_null_thread = []
+        for thread in all_threads:
+            # Vérifiez si le thread a au moins un message associé
+            if MessageModel.objects.filter(thread=thread).exists():
+                messages[thread.pk] = MessageModel.objects.filter(thread=thread)
+                no_null_thread.append(thread)
 
         user_object = User.objects.get(username=request.user.username)
         user_profile = Profile.objects.get(user=user_object)
@@ -511,9 +514,8 @@ class ListThreads(View):
                 liker_user = User.objects.get(username=liker_username)
                 liker_profile = Profile.objects.get(id_user=liker_user.id)
                 person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg})
-        print(rooms)
         context = {
-            'threads': threads,
+            'threads': no_null_thread,
             'messages': messages,  # Passer les messages au template
             'user_profile': user_profile,
             "followers": followers_list[:4], 

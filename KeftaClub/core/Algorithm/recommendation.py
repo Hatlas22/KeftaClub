@@ -197,14 +197,31 @@ def recommend_by_number_of_like_per_user_posts(graph, post_graph, like_post, use
 
 
 
-def recommend_by_number_of_like(post_like_map):
+def number_of_friend_posts_like(graph, post_graph, post_like_map, user):
+    """Returns a map of wich key is friend posts 
+    and value is the number of likes of that post
+    """
+    
+    all_friends = friends(graph, user)
+    
+    friend_posts_like_map = {}
+    
+    for friend in all_friends:
+        for post in user_posts(post_graph, friend):#get each post from all friends
+                friend_posts_like_map[post] = post_like_map[post]
+                
+    return friend_posts_like_map
+
+
+def recommend_by_number_of_like(graph, post_graph, post_like_map, user):
     """Return a list of post recommendations based on the number of like of each post. 
     in other word, popularity, in other words, hold my hand, in other word, darling kiss me.
     Fill my heart with song And let me sing for ever more.
     You are all I long for, All I worship and adore.
     In other words, please be true, In other words, I love you
     """
-    return number_map_to_sorted_list(post_like_map)
+    return number_map_to_sorted_list(number_of_friend_posts_like(graph, post_graph, post_like_map, user))
+
 
 
 def number_of_common_interest_with_post(graph, interest_graph, post_graph, post_interest_graph, user):
@@ -235,13 +252,28 @@ def recommend_by_common_interest_with_post(graph, interest_graph, post_graph, po
     """
     return number_map_to_sorted_list(number_of_common_interest_with_post(graph, interest_graph, post_graph, post_interest_graph, user))
 
+def friends_publication_date_map(graph, post_graph, nb_hours_pub_date_map, user):
+    """Returns a map of wich key is friend posts 
+    and value is the number of hours since it was posted
+    """
+    
+    all_friends = friends(graph, user)
+    
+    hours_since_friend_pub_map = {}
+    
+    for friend in all_friends:
+        for post in user_posts(post_graph, friend):#get each post from all friends
+                hours_since_friend_pub_map[post] = nb_hours_pub_date_map[post]
+                
+    return hours_since_friend_pub_map
+    
 
 
-def recommend_by_publication_date(nb_hours_pub_date_map):
+def recommend_by_publication_date(graph, post_graph, nb_hours_pub_date_map, user):
     """Return a list of post recommendations based on the publication date.
     The most recent will be first, the oldest will be last.
     """
-    return number_map_to_sorted_list(nb_hours_pub_date_map)[::-1]#to reverse order
+    return number_map_to_sorted_list(friends_publication_date_map(graph, post_graph, nb_hours_pub_date_map, user))[::-1]#to reverse order
    
 
 def calculate_hours_since_post(posts_dates):
@@ -298,7 +330,7 @@ def posts_recommandation_algorithm(graph, interest_graph, user_post_graph, like_
     """
 
     rlp_result = recommend_by_number_of_like_per_user_posts(graph,user_post_graph,like_post_graph, user) # nb like de toi
-    rnl_result = recommend_by_number_of_like(post_likes_count) 
+    rnl_result = recommend_by_number_of_like(graph, user_post_graph, post_likes_count, user) 
     rip_result = recommend_by_common_interest_with_post(graph, interest_graph, user_post_graph, post_category_graph, user) 
     
     first_step_posts = [rlp_result, rnl_result, rip_result]
@@ -308,7 +340,7 @@ def posts_recommandation_algorithm(graph, interest_graph, user_post_graph, like_
     first_ranking = sorted(first_step_ranking, key=first_step_ranking.get)
     
     #Date ranking list
-    rpd_result = recommend_by_publication_date(calculate_hours_since_post(posts_date)) 
+    rpd_result = recommend_by_publication_date(graph, user_post_graph, calculate_hours_since_post(posts_date), user) 
     print(rpd_result)
 
     
