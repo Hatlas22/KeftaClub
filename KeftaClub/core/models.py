@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth import get_user_model
 import uuid
 from datetime import datetime
+from django.utils import timezone
 
 User = get_user_model()
 
@@ -47,7 +48,7 @@ class Post(models.Model):
 class LikePost(models.Model):
     post_id = models.CharField(max_length=500)
     username = models.CharField(max_length=100)
-    created_on = models.DateTimeField(auto_now_add=True)
+    created_on = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
         return self.username
@@ -55,6 +56,7 @@ class LikePost(models.Model):
 class FollowersCount(models.Model):
     follower = models.CharField(max_length=100)
     user = models.CharField(max_length=100)
+    date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.user

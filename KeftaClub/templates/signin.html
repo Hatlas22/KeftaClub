@@ -1,153 +1,46 @@
+{% extends "_base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
+{% block title %}KeftaClub - Sign in{% endblock %}
 
-
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
-    <title>Sign In - Kefta Club</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
-
-</head>
-
-<body class="bg-gray-100">
-
-
-    <div id="wrapper" class="flex flex-col justify-between h-screen">
-
-        <!-- header-->
-        <div class="bg-white py-4 shadow dark:bg-gray-800">
-            <div class="max-w-6xl mx-auto">
-
-
-                <div class="flex items-center lg:justify-between justify-around">
-
-                    <a href="trending.html">
-                       <b><h1 style="font-size: 1.5rem;">Kefta Club</h1></b>
-                    </a>
-
-                    <div class="capitalize flex font-semibold hidden lg:block my-2 space-x-3 text-center text-sm">
-                        
-                        <a href="/signup" class="bg-pink-500 pink-500 px-6 py-3 rounded-md shadow text-white">Register</a>
+{% block content %}
+<div class="h-screen flex items-center justify-center">
+    <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+        <form class="space-y-6" action="" method="POST">
+            {% csrf_token %}
+            <h5 class="text-xl font-medium text-gray-900 dark:text-white">Kefta Club - Sign in</h5>
+            <div>
+                <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Username</label>
+                <input type="text" name="username" id="username" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="username" required />
+            </div>
+            <div>
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
+                <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required />
+            </div>
+            <div class="flex items-start">
+                <div class="flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="chekcbox1" type="checkbox" value="" class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-green-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-green-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
                     </div>
-
+                    <label for="chekcbox1" class="ms-2 text-sm font-medium text-gray-900 dark:text-white">Remember me</label>
                 </div>
+                <a href="#" class="ms-auto text-sm text-green-700 hover:underline dark:text-white">Lost Password?</a>
             </div>
-        </div>
-
-        <!-- Content-->
-        <div>
-            <div class="lg:p-12 max-w-md max-w-xl lg:my-0 my-12 mx-auto p-6 space-y-">
-                <h1 class="lg:text-3xl text-xl font-semibold  mb-6">Log in</h1>
-
-
-                <div>
-                    <style>
-                        h5{
-                            color: red;
-                        }
-                    </style>
-                    {% for message in messages %}
-                    <h5>{{message}}</h5>
-                    {% endfor %}
-                </div>
-
-
-                <form action="" method="POST">
-                    {% csrf_token %}
-                    <input type="text" name="username" placeholder="Username" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <input type="password" name="password" placeholder="Password" class="bg-gray-200 mb-2 shadow-none dark:bg-gray-800" style="border: 1px solid #d3d5d8 !important;">
-                    <div class="flex justify-between my-4">
-                        <div class="checkbox">
-                            <input type="checkbox" id="chekcbox1" checked>
-                            <label for="chekcbox1"><span class="checkbox-icon"></span>Remember Me</label>
-                        </div>
-                        <a href="#"> Forgot Your Password? </a>
-                    </div> 
-                    <button type="submit" class="bg-gradient-to-br from-pink-500 py-3 rounded-md text-white text-xl to-red-400 w-full">Login</button>
-                    <div class="text-center mt-5 space-x-2">
-                        <p class="text-base"> Not registered? <a href="/signup" class=""> Create a account </a></p>
-                    </div>
-                </form>
-
-
-
+            <button type="submit" class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Login to your account</button>
+            <div class="text-sm font-medium text-gray-500 dark:text-gray-300">
+                Not registered? <a href="/signup" class="text-green-700 hover:underline dark:text-green-500">Create account</a>
             </div>
-        </div>
-        
-        <!-- Footer -->
-
-        <div class="lg:mb-5 py-3 uk-link-reset">
-            <div class="flex flex-col items-center justify-between lg:flex-row max-w-6xl mx-auto lg:space-y-0 space-y-3">
-                <div class="flex space-x-2 text-gray-700 uppercase">
-                    <a href="#"> About</a>
-                    <a href="#"> Help</a>
-                    <a href="#"> Terms</a>
-                    <a href="#"> Privacy</a>
-                </div>
-                <p class="capitalize"> © copyright 2020 by socol</p>
-            </div>
-        </div>
-
+        </form>
     </div>
+</div>
 
+{% endblock content %}
 
-    <!--<script>
-        
-        (function (window, document, undefined) {
-            'use strict';
-            if (!('localStorage' in window)) return;
-            var nightMode = localStorage.getItem('gmtNightMode');
-            if (nightMode) {
-                document.documentElement.className += ' dark';
-            }
-        })(window, document);
-    
-    
-        (function (window, document, undefined) {
-    
-            'use strict';
-    
-            // Feature test
-            if (!('localStorage' in window)) return;
-    
-            // Get our newly insert toggle
-            var nightMode = document.querySelector('#night-mode');
-            if (!nightMode) return;
-    
-            // When clicked, toggle night mode on or off
-            nightMode.addEventListener('click', function (event) {
-                event.preventDefault();
-                document.documentElement.classList.toggle('dark');
-                if (document.documentElement.classList.contains('dark')) {
-                    localStorage.setItem('gmtNightMode', true);
-                    return;
-                }
-                localStorage.removeItem('gmtNightMode');
-            }, false);
-    
-        })(window, document);
-    </script>-->
+{% block js %}
+<script src="{% static 'assets/js/tippy.all.min.js' %}"></script>   
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/uikit.js' %}"></script>
+<script src="{% static 'assets/js/simplebar.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
 
-    <!-- Scripts
-    ================================================== -->
-    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>
-    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/uikit.js' %}"></script>
-    <script src="{% static 'assets/js/simplebar.js' %}"></script>
-    <script src="{% static 'assets/js/custom.js' %}"></script>
-
-
-</body>
-
-
-</html>
+{% endblock js %}
