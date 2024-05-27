@@ -150,10 +150,10 @@ def index(request):
     for  post in feed_list:
         username = User.objects.get(username=post.user)
         profile_pic = Profile.objects.get(user=username.id)
-        liked_post = LikePost.objects.filter(id=post.id)
+        liked_post = LikePost.objects.filter(post_id=post.id)
         is_liked = False
-        for post in liked_post:
-            if post.username == user_object.get_username:
+        for zibba in liked_post:
+            if zibba.username == user_object.username:
                 is_liked = True
         new_feed.append({
             'post' : post,
@@ -162,7 +162,8 @@ def index(request):
 
         })
 
-    print(new_feed[0])
+    print('AAAAAAAAA')
+    print(new_feed[0]['post'])
     
     # user suggestion starts
     all_users = User.objects.all()
