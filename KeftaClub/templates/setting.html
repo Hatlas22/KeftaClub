@@ -28,6 +28,67 @@
                         <label for="about" class="text-gray-900 dark:text-white text-xl md:text-md font-extrabold mb-4">Bio</label>
                         <textarea id="about" name="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Write your bio here...">{{user_profile.bio}}</textarea>
 
+<<<<<<< HEAD
+=======
+                            <div class="col-span-2">
+                                <label for=""> Location</label>
+                                <input type="text" name="location" value="{{user_profile.location}}" class="shadow-none bg-gray-100">
+                            </div>
+
+                        
+
+                        <div class="col-span-2">
+                            <label for="favoriteMeat">Choose your favorite food origin:</label>
+                            <select id="favoriteMeat" name="favoriteMeat">
+                                {% for option in originSelect %}
+                                    <option value="{{ option.value }}" {% if option.value == user_profile.favoriteOrigin %}selected{% endif %}>{{ option.label }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="col-span-2">
+                            <label for="favoriteCooking">Favorite Cooking</label>
+                            <select id="favoriteCooking" name="favoriteCooking">
+                                <option value="raw">raw</option>
+                                <option value="raw (probably still alive)">raw (probably alive)</option>
+                                <option value="burnt">burnt</option>
+                                <option value="insanely burnt">insanely burnt</option>
+                                <option value="calcinated">calcinated</option>
+                            </select>
+
+                            </div>
+                            
+                            <div class="col-span-2">
+                                <label for="favoriteCooking">Favorite Cooking</label>
+                                <select id="favoriteCooking" name="favoriteCooking">
+                                    <option value="raw" {% if favorite_cooking == "raw" %}selected{% endif %}>raw</option>
+                                    <option value="raw (probably still alive)" {% if user_profile.favoriteCooking == "raw (probably still alive)" %}selected{% endif %}>raw (probably alive)</option>
+                                    <option value="burnt" {% if user_profile.favoriteCooking == "burnt" %}selected{% endif %}>burnt</option>
+                                    <option value="insanely burnt" {% if user_profile.favoriteCooking == "insanely burnt" %}selected{% endif %}>insanely burnt</option>
+                                    <option value="calcinated" {% if user_profile.favoriteCooking == "calcinated" %}selected{% endif %}>calcinated</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-span-2">
+                                <label for="favoriteRegion">Favorite Spiciness</label>
+                                <select id="favoriteRegion" name="favoriteRegion">
+                                    <option value="0" {% if user_profile.favoriteCooking == "0" %}selected{% endif %}>0</option>
+                                    <option value="1" {% if user_profile.favoriteCooking == "1" %}selected{% endif %}>1</option>
+                                    <option value="2" {% if user_profile.favoriteCooking == "2" %}selected{% endif %}>2</option>
+                                    <option value="3" {% if user_profile.favoriteCooking == "3" %}selected{% endif %}>MY MOUTH!!!</option>
+                                </select>
+                            </div>
+                            
+                            
+                        </div>
+    
+                       <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                           <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> <a href="/">Cancel</a> </button>
+                           <button type="submit" class="button bg-blue-700"> Save </button></a>
+                       </div>
+                    </form>
+    
+>>>>>>> 6edf8c659afd8c0857f1b017cd617bbfd9de4e01
                     </div>
 
                     <br/>

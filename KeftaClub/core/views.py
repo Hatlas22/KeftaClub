@@ -336,6 +336,23 @@ def settings(request):
     user_profile = Profile.objects.get(user=request.user)
 
     if request.method == 'POST':
+
+        originSelect = {"Failed Experiment" : "Failed Experiment" 
+                        , "Leftovers" : "Leftovers"
+                        , "Expired food" : "Expired food"
+                        , "Wicked Intention": "Wicked Intention"}
+
+        cookingSelect = {"raw" : "raw"
+                         , "raw (probably still alive)" : "raw (probably alive)"
+                         , "burnt" : "burnt"
+                         , "insanely burnt": "insanely burnt"
+                         , "calcinated" : "calcinated"}
+
+        spicynessSelect = {"0" : "0"
+                           , "1" : "1"
+                           , "2" : "2"
+                           , "3": "MY MOUTH!!!"} 
+    
         
         if request.FILES.get('image') == None:
             image = user_profile.profileimg
@@ -365,7 +382,7 @@ def settings(request):
             user_profile.save()
         
         return redirect('settings')
-    return render(request, 'setting.html', {'user_profile': user_profile})
+    return render(request, 'setting.html', {'user_profile': user_profile}, originSelect, cookingSelect, spicynessSelect)
 
 def signup(request):
 
