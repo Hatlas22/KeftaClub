@@ -40,8 +40,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'core',
-    'crispy_forms',
-    'crispy_bootstrap4',
     'compressor'
 
 ]
@@ -77,7 +75,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'KeftaClub.wsgi.application'
 
-CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 

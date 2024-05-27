@@ -161,9 +161,6 @@ def index(request):
             'is_liked' : is_liked
 
         })
-
-    print('AAAAAAAAA')
-    print(new_feed[0]['post'])
     
     # user suggestion starts
     all_users = User.objects.all()
@@ -604,9 +601,13 @@ def create_thread_ajax(request):
 #Fonction pour le chat room
 def room(request, room_name):
     username = request.user.username
+    user_object = User.objects.get(username=request.user.username)
+    user_profile = Profile.objects.get(user=user_object)
     room = get_object_or_404(Room, name=room_name)
+    print(user_profile.profileimg.url)
     return render(request, 'room.html', {
         'username': username,
+        'profile':user_profile.profileimg.url,
         'room': room,
     })
 
@@ -628,8 +629,9 @@ def send(request):
     message = request.POST['message']
     username = request.user.username
     room_id = request.POST['room_id']
+    profile = request.POST['profile']
 
-    new_message = Message.objects.create(value= message , user = username , room = room_id)
+    new_message = Message.objects.create(value= message , user = username , room = room_id, profile=profile)
     new_message.save()
     return HttpResponse('Message envoyé avec succès')
 

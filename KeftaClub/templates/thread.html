@@ -1,5 +1,4 @@
 {% load static %}
-{% load crispy_forms_tags %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -104,7 +103,7 @@
             <div class="card col-md-12 p-3 shadow-sm">
                 <form method="POST" action="{% url 'create-message' thread.pk %}" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form | crispy }}
+                    {{ form }}
 
                     <div class="d-grid gap-2 mt-3">
                         <button class="btn btn-light" type="submit">Send Message</button>

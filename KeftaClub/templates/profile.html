@@ -1,7 +1,7 @@
 {% extends "_base.html" %}
 {% load static %}
 
-{% block title %}KeftaClub - Sign in{% endblock %}
+{% block title %}KeftaClub - Profile{% endblock %}
 
 {% block content %}
 
@@ -39,55 +39,13 @@
 	</div>
 	<!-- top header end -->
 
-
-	<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-		<div class="grid gap-4">
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image.jpg" alt="">
+	<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+		{% for post in user_posts %}
+			<div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 100%;">
+				<img class="absolute inset-0 w-full h-full object-cover" src="{{post.image.url}}" alt="">
 			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-1.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-2.jpg" alt="">
-			</div>
-		</div>
-		<div class="grid gap-4">
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-3.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-4.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-5.jpg" alt="">
-			</div>
-		</div>
-		<div class="grid gap-4">
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-6.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-7.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-8.jpg" alt="">
-			</div>
-		</div>
-		<div class="grid gap-4">
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-9.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-10.jpg" alt="">
-			</div>
-			<div>
-				<img class="h-auto max-w-full rounded-lg" src="https://flowbite.s3.amazonaws.com/docs/gallery/masonry/image-11.jpg" alt="">
-			</div>
-		</div>
+		{% endfor %}
 	</div>
-	
-
 </div>
 
 {% endblock content %}
