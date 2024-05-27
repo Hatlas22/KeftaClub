@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 from itertools import chain
+from operator import attrgetter
 import random
 from django.views import View
 from django.db.models import Q
@@ -16,14 +17,12 @@ import networkx as nx
 #Recommandation algorithms
 from .Algorithm.recommendation import friends_recommandation_algorithm as fra
 from .Algorithm.recommendation import posts_recommandation_algorithm as pra
-# Create your views here.
+
 
 @login_required(login_url='signin')
 def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    user_post = Post.objects.filter(user=user_object)
-    user_receive_msg = MessageModel.objects.filter(receiver_user_id=request.user.id).order_by("-date")
 
     #####################################
     #### SECTION DE TEST DE L'ALGO ######
@@ -110,48 +109,60 @@ def index(request):
     ############### FIN #################
     #####################################
 
-    
-    person_who_like_user_post = []
-    for post in user_post:
-        like_user_posts = LikePost.objects.filter(post_id=post.id)
-        for like in like_user_posts:
-            liker_username = like.username
-            liker_user = User.objects.get(username=liker_username)
-            liker_profile = Profile.objects.get(id_user=liker_user.id)
-            person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg}) # Assuming 'profileimg' is the field name for the profile picture
 
-    user_sender = []
     user_following_list = []
     followers_list = []
     feed = []
 
+
     user_following = FollowersCount.objects.filter(follower=request.user.username)
     followers = FollowersCount.objects.filter(user=request.user.username)
 
-    # Si aucun follower n'existe, définissez la liste des followers sur None
+    # If no followers exist, set followers_list to empty
     if not followers.exists():
-        followers = []
+        followers_list = []
+    else:
+        for follower in followers:
+            user_follower = User.objects.get(username=follower.follower)
+            profile_follower = Profile.objects.get(user=user_follower.id)
+            profile_follower.notification_type = 'follower'
+            profile_follower.date = follower.date
+            followers_list.append({
+                'username': user_follower.username,
+                'profile_pic': profile_follower.profileimg,
+                'notification_type': 'follower',
+                'date': follower.date
+            })
 
     #This part list all the users you are following
     for users in user_following:
         user_following_list.append(users.user)
 
-    for sender in user_receive_msg :
-        author_msg = User.objects.get(id=sender.sender_user_id)
-        user_sender.append({"sender_name":author_msg.username,"message_date":sender.date,"thread":sender.thread_id})
-    
-    for follower in followers :
-
-        user_follower = User.objects.get(username = follower.follower)
-        followers_list.append(Profile.objects.get(user=user_follower))
-
     for post in posts_recommendation:
         feed_lists = Post.objects.filter(id=post)
+        #profilepicture = Profile.objects.get(user=User.objects.get(username=follower.follower).id)
         feed.append(feed_lists)
 
-    #The user feed is then contained here
-    
     feed_list = list(chain(*feed))[::-1]
+
+    new_feed = []
+
+    for  post in feed_list:
+        username = User.objects.get(username=post.user)
+        profile_pic = Profile.objects.get(user=username.id)
+        liked_post = LikePost.objects.filter(id=post.id)
+        is_liked = False
+        for post in liked_post:
+            if post.username == user_object.get_username:
+                is_liked = True
+        new_feed.append({
+            'post' : post,
+            'profile' : profile_pic.profileimg.url,
+            'is_liked' : is_liked
+
+        })
+
+    print(new_feed[0])
     
     # user suggestion starts
     all_users = User.objects.all()
@@ -162,6 +173,7 @@ def index(request):
         user_list = User.objects.get(username=user.user)
         user_following_all.append(user_list)
     
+    # Assuming friends_recommendation and posts_recommendation are obtained earlier in the view
     for recommended_user in friends_recommendation:
         user_list = User.objects.get(username=recommended_user)
         final_suggestions_list.append(user_list)
@@ -186,7 +198,15 @@ def index(request):
 
     suggestions_username_profile_list = list(chain(*username_profile_list))
 
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4], "followers":followers_list[:4], "person_who_liked_post":person_who_like_user_post,"message_receive":user_sender[:5]})
+
+    context = {
+        'user_profile': user_profile,
+        'posts': new_feed,
+        'suggestions_username_profile_list': suggestions_username_profile_list[:4],
+        'followers': followers_list[:4]
+    }
+
+    return render(request, 'index.html', context) 
 
 @login_required(login_url='signin')
 def upload(request):
@@ -413,7 +433,6 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_object = User.objects.get(username=request.user.username)
     comments = post.comments.all()
-    print(comments)
     new_comment = None 
     user_profile = Profile.objects.get(user=user_object)
 
@@ -467,7 +486,7 @@ def delete_comment_api(request, pk):
     comment.delete()
     return JsonResponse({'success': True})
 
-#Fonction pour leq messages privé
+#Fonction pour les messages privé
 class ListThreads(View):
     def get(self, request, *args, **kwargs):
         # Récupérez toutes les conversations avec des messages associés
