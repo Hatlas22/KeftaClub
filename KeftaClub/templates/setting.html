@@ -68,10 +68,9 @@
                         <div class="col-span-2">
                             <label for="favoriteMeat">Choose your favorite food origin:</label>
                             <select id="favoriteMeat" name="favoriteMeat">
-                                <option value="Failed Experiment">Failed Experiment</option>
-                                <option value="Leftovers">Leftovers</option>
-                                <option value="Expired food">Expired food</option>
-                                <option value="Wicked Intention">Wicked Intention</option>
+                                {% for option in originSelect %}
+                                    <option value="{{ option.value }}" {% if option.value == user_profile.favoriteOrigin %}selected{% endif %}>{{ option.label }}</option>
+                                {% endfor %}
                             </select>
                         </div>
 
