@@ -15,7 +15,7 @@ run les commandes suivantes :
 
 # Librairies python
 
-Installer toutes les librairies contenues dans le fichier reuirements.txt
+Installer toutes les librairies contenues dans le fichier requirements.txt
 
 # Lancement du site
 
