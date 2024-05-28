@@ -34,6 +34,12 @@
 		<a href="/settings" data-ripple="">
 		<button class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin:24px;" id="create-thread-btn" data-username="{{ user_object.username }}">Conversation</button>
 		</a>
+		<form action="/follow" method="POST">
+			{% csrf_token %}
+			<a data-ripple=""><button type="submit" class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin:24px;">{{button_text}}</button></a>
+			<input type="hidden" value="{{user.username}}" name="follower" />
+			<input type="hidden" value="{{user_object.username}}" name="user" />
+		</form>
 		{% endif %}
 		<p class="text-xl font-bold whitespace-nowrap dark:text-white" style="margin-bottom:48px;">{{user_profile.bio}}</p>
 	</div>
@@ -42,7 +48,7 @@
 	<div class="grid grid-cols-2 md:grid-cols-3 gap-4">
 		{% for post in user_posts %}
 			<div class="relative w-full overflow-hidden rounded-lg" style="padding-top: 100%;">
-				<img class="absolute inset-0 w-full h-full object-cover" src="{{post.image.url}}" alt="">
+				<a href="/post/{{post.id}}"><img class="absolute inset-0 w-full h-full object-cover" src="{{post.image.url}}" alt=""></a>
 			</div>
 		{% endfor %}
 	</div>

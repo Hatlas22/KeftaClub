@@ -13,8 +13,7 @@
 
 <div class="container m-auto">
 
-        <div class="flex items-center justify-center flex-shrink-0 w-1/2" >
-
+        <div class="flex w-1/2 self-center">
             <!-- post 1-->
             <div class="bg-white shadow rounded-md  -mx-2 lg:mx-0">
 
@@ -110,7 +109,7 @@
                             <div class="col-md-8 card mb-4 mt-3 left top">
                                 <div class="card-body">
                                     <h1>{% block name %} {{ post.title }} {% endblock name %}</h1>
-                                    <p class="text-muted">{{ post.author }} | {{ post.created_on }}</p>
+                                    <p class="text-muted">{{ post.author }} | {{ post.date }}</p>
                                     <p class="card-text">{{ post.content | safe }}</p>
                                 </div>
                             </div>
@@ -122,7 +121,7 @@
                                         {% for comment in comments %}
                                         <div id="comment-{{ comment.pk }}" class="comments" style="padding: 10px;">
                                             <p><strong>{{ comment.username }}</strong>: <span class="comment-body">{{ comment.body | linebreaks }}</span></p>
-                                            <p><em>{{ comment.created_on }}</em></p>
+                                            <p><em>{{ comment.date }}</em></p>
                                             {% if comment.username == request.user.username %}
                                                 <button class="edit-comment" data-id="{{ comment.pk }}">Edit</button>
                                                 <button class="delete-comment" data-id="{{ comment.pk }}">Delete</button>
@@ -185,7 +184,7 @@
                                             $('#comments').append(
                                                 '<div id="comment-' + response.comment_id + '" class="comments" style="padding: 10px;">' +
                                                 '<p><strong>' + response.username + '</strong>: <span class="comment-body">' + response.body + '</span></p>' +
-                                                '<p><em>' + response.created_on + '</em></p>' +
+                                                '<p><em>' + response.date + '</em></p>' +
                                                 '<button class="edit-comment" data-id="' + response.comment_id + '">Edit</button>' +
                                                 '<button class="delete-comment" data-id="' + response.comment_id + '">Delete</button>' +
                                                 '</div>',
@@ -259,7 +258,7 @@
                                         $('#comments').append(
                                             '<div id="comment-' + response.comment_id + '" class="comments" style="padding: 10px;">' +
                                             '<p><strong>' + response.username + '</strong>: <span class="comment-body">' + response.body + '</span></p>' +
-                                            '<p><em>' + response.created_on + '</em></p>' +
+                                            '<p><em>' + response.date + '</em></p>' +
                                             '<button class="edit-comment" data-id="' + response.comment_id + '">Edit</button>' +
                                             '<button class="delete-comment" data-id="' + response.comment_id + '">Delete</button>' +
                                             '</div>',
