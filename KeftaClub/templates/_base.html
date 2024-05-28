@@ -69,7 +69,7 @@
                             <a href="/settings" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Settings</a>
                             </li>
                             <li>
-                            <a href="/signin" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
+                            <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</a>
                             </li>
                         </ul>
                 </div>
@@ -243,7 +243,7 @@
                                         <a href="/profile/{{ notification.username }}" class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700">
                                             <div class="flex-shrink-0">
                                               <img class="rounded-full w-11 h-11" src="{{ notification.profile_pic.url }}" alt="Bonnie image">
-                                              <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-blue-600 border border-white rounded-full dark:border-gray-800">
+                                              <div class="absolute flex items-center justify-center w-5 h-5 ms-6 -mt-5 bg-red-600 border border-white rounded-full dark:border-gray-800">
                                                 <svg class="w-2 h-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                   <path d="M17.947 2.053a5.209 5.209 0 0 0-3.793-1.53A6.414 6.414 0 0 0 10 2.311 6.482 6.482 0 0 0 5.824.5a5.2 5.2 0 0 0-3.8 1.521c-1.915 1.916-2.315 5.392.625 8.333l7 7a.5.5 0 0 0 .708 0l7-7a6.6 6.6 0 0 0 2.123-4.508 5.179 5.179 0 0 0-1.533-3.793Z"/>
                                                 </svg>
@@ -251,7 +251,7 @@
                                             </div>
                                             <div class="w-full ps-3">
                                                 <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400"><span class="font-semibold text-gray-900 dark:text-white">{{ notification.username }}</span> Liked your post</div>
-                                                <div class="text-xs text-blue-600 dark:text-blue-500">sent at {{notification.date}}</div>
+                                                <div class="text-xs text-red-600 dark:text-red-500">sent at {{notification.date}}</div>
                                             </div>
                                           </a>
                                         {% endif %}
