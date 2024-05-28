@@ -334,24 +334,25 @@ def follow(request):
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
-
-    if request.method == 'POST':
-
-        originSelect = {"Failed Experiment" : "Failed Experiment" 
+    originSelect = {"Failed Experiment" : "Failed Experiment" 
                         , "Leftovers" : "Leftovers"
                         , "Expired food" : "Expired food"
                         , "Wicked Intention": "Wicked Intention"}
 
-        cookingSelect = {"raw" : "raw"
+    cookingSelect = {"raw" : "raw"
                          , "raw (probably still alive)" : "raw (probably alive)"
                          , "burnt" : "burnt"
                          , "insanely burnt": "insanely burnt"
                          , "calcinated" : "calcinated"}
 
-        spicynessSelect = {"0" : "0"
+    spicynessSelect = {"0" : "0"
                            , "1" : "1"
                            , "2" : "2"
                            , "3": "MY MOUTH!!!"} 
+
+    if request.method == 'POST':
+
+        
     
         
         if request.FILES.get('image') == None:
@@ -380,9 +381,9 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
-        
+        print(originSelect)
         return redirect('settings')
-    return render(request, 'setting.html', {'user_profile': user_profile}, originSelect, cookingSelect, spicynessSelect)
+    return render(request, 'setting.html', context = {'user_profile': user_profile, 'originSelect' : originSelect, 'cookingSelect':cookingSelect,'spicynessSelect': spicynessSelect})
 
 def signup(request):
 
