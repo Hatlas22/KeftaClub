@@ -618,14 +618,28 @@ def create_thread_ajax(request):
 #Fonction pour le chat room
 def room(request, room_name):
     username = request.user.username
-    user_object = User.objects.get(username=request.user.username)
+    user_object = User.objects.get(username=username)
     user_profile = Profile.objects.get(user=user_object)
     room = get_object_or_404(Room, name=room_name)
-    print(user_profile.profileimg.url)
+    
+    # Fetch all messages related to the room and include user profile pictures
+    messages = Message.objects.filter(room=room.id).order_by('date')
+    message_list = []
+    for message in messages:
+        message_user = User.objects.get(username=message.user)
+        message_profile = Profile.objects.get(user=message_user)
+        message_list.append({
+            'user': message.user,
+            'value': message.value,
+            'date': message.date,
+            'profile': message_profile.profileimg.url,
+        })
+
     return render(request, 'room.html', {
         'username': username,
-        'profile':user_profile.profileimg.url,
+        'profile': user_profile.profileimg.url,
         'room': room,
+        'messages': message_list,
     })
 
 def checkview(request):
@@ -633,27 +647,36 @@ def checkview(request):
         room_name = request.POST['room_name']
         username = request.user.username
 
-        user = User.objects.get(username=username)
-        
         room, created = Room.objects.get_or_create(name=room_name)
 
         return redirect(f'/{room.name}/?username={username}')
     return render(request, 'create_room.html')
 
-    
-
 def send(request):
     message = request.POST['message']
     username = request.user.username
     room_id = request.POST['room_id']
-    profile = request.POST['profile']
 
-    new_message = Message.objects.create(value= message , user = username , room = room_id, profile=profile)
+    user = User.objects.get(username=username)
+    user_profile = Profile.objects.get(user=user)
+
+    new_message = Message.objects.create(value=message, user=username, room=room_id, profile=user_profile.profileimg.url)
     new_message.save()
     return HttpResponse('Message envoyé avec succès')
-
 
 def getMessages(request, room_name):
     room = Room.objects.get(name=room_name)
     messages = Message.objects.filter(room=room.id).order_by('date')
-    return JsonResponse({"messages": list(messages.values())})
+    message_list = []
+
+    for message in messages:
+        user = User.objects.get(username=message.user)
+        user_profile = Profile.objects.get(user=user)
+        message_list.append({
+            'user': message.user,
+            'value': message.value,
+            'date': message.date,
+            'profile': user_profile.profileimg.url,  # Inclure l'URL de la photo de profil
+        })
+
+    return JsonResponse({"messages": message_list})
