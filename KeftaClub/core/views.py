@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .models import *
 from .forms import *
 from itertools import chain
+from operator import attrgetter
 import random
 from django.views import View
 from django.db.models import Q
@@ -16,14 +17,12 @@ import networkx as nx
 #Recommandation algorithms
 from .Algorithm.recommendation import friends_recommandation_algorithm as fra
 from .Algorithm.recommendation import posts_recommandation_algorithm as pra
-# Create your views here.
+
 
 @login_required(login_url='signin')
 def index(request):
     user_object = User.objects.get(username=request.user.username)
     user_profile = Profile.objects.get(user=user_object)
-    user_post = Post.objects.filter(user=user_object)
-    user_receive_msg = MessageModel.objects.filter(receiver_user_id=request.user.id).order_by("-date")
 
     #####################################
     #### SECTION DE TEST DE L'ALGO ######
@@ -110,48 +109,58 @@ def index(request):
     ############### FIN #################
     #####################################
 
-    
-    person_who_like_user_post = []
-    for post in user_post:
-        like_user_posts = LikePost.objects.filter(post_id=post.id)
-        for like in like_user_posts:
-            liker_username = like.username
-            liker_user = User.objects.get(username=liker_username)
-            liker_profile = Profile.objects.get(id_user=liker_user.id)
-            person_who_like_user_post.append({'username': liker_user.username,'profile_pic': liker_profile.profileimg}) # Assuming 'profileimg' is the field name for the profile picture
 
-    user_sender = []
     user_following_list = []
     followers_list = []
     feed = []
 
+
     user_following = FollowersCount.objects.filter(follower=request.user.username)
     followers = FollowersCount.objects.filter(user=request.user.username)
 
-    # Si aucun follower n'existe, définissez la liste des followers sur None
+    # If no followers exist, set followers_list to empty
     if not followers.exists():
-        followers = []
+        followers_list = []
+    else:
+        for follower in followers:
+            user_follower = User.objects.get(username=follower.follower)
+            profile_follower = Profile.objects.get(user=user_follower.id)
+            profile_follower.notification_type = 'follower'
+            profile_follower.date = follower.date
+            followers_list.append({
+                'username': user_follower.username,
+                'profile_pic': profile_follower.profileimg,
+                'notification_type': 'follower',
+                'date': follower.date
+            })
 
     #This part list all the users you are following
     for users in user_following:
         user_following_list.append(users.user)
 
-    for sender in user_receive_msg :
-        author_msg = User.objects.get(id=sender.sender_user_id)
-        user_sender.append({"sender_name":author_msg.username,"message_date":sender.date,"thread":sender.thread_id})
-    
-    for follower in followers :
-
-        user_follower = User.objects.get(username = follower.follower)
-        followers_list.append(Profile.objects.get(user=user_follower))
-
     for post in posts_recommendation:
         feed_lists = Post.objects.filter(id=post)
+        #profilepicture = Profile.objects.get(user=User.objects.get(username=follower.follower).id)
         feed.append(feed_lists)
 
-    #The user feed is then contained here
-    
     feed_list = list(chain(*feed))[::-1]
+
+    new_feed = []
+
+    for  post in feed_list:
+        username = User.objects.get(username=post.user)
+        profile_pic = Profile.objects.get(user=username.id)
+        liked_post = LikePost.objects.filter(post_id=post.id)
+        is_liked = False
+        for zibba in liked_post:
+            if zibba.username == user_object.username:
+                is_liked = True
+        new_feed.append({
+            'post' : post,
+            'profile' : profile_pic.profileimg.url,
+            'is_liked' : is_liked
+
+        })
     
     # user suggestion starts
     all_users = User.objects.all()
@@ -162,6 +171,7 @@ def index(request):
         user_list = User.objects.get(username=user.user)
         user_following_all.append(user_list)
     
+    # Assuming friends_recommendation and posts_recommendation are obtained earlier in the view
     for recommended_user in friends_recommendation:
         user_list = User.objects.get(username=recommended_user)
         final_suggestions_list.append(user_list)
@@ -186,7 +196,15 @@ def index(request):
 
     suggestions_username_profile_list = list(chain(*username_profile_list))
 
-    return render(request, 'index.html', {'user_profile': user_profile, 'posts':feed_list, 'suggestions_username_profile_list': suggestions_username_profile_list[:4], "followers":followers_list[:4], "person_who_liked_post":person_who_like_user_post,"message_receive":user_sender[:5]})
+
+    context = {
+        'user_profile': user_profile,
+        'posts': new_feed,
+        'suggestions_username_profile_list': suggestions_username_profile_list[:4],
+        'followers': followers_list[:4]
+    }
+
+    return render(request, 'index.html', context) 
 
 @login_required(login_url='signin')
 def upload(request):
@@ -196,9 +214,9 @@ def upload(request):
         image = request.FILES.get('image_upload')
         caption = request.POST['caption']
         
-        spicyness = request.POST['meat']
+        origin = request.POST['meat']
         cooking = request.POST['cooking']
-        origin = request.POST['region']
+        spicyness = request.POST['region']
         location = request.POST['location']
 
         #Check if a location was entered
@@ -316,16 +334,34 @@ def follow(request):
 @login_required(login_url='signin')
 def settings(request):
     user_profile = Profile.objects.get(user=request.user)
+    originSelect = {"Failed Experiment" : "Failed Experiment" 
+                        , "Leftovers" : "Leftovers"
+                        , "Expired food" : "Expired food"
+                        , "Wicked Intention": "Wicked Intention"}
+
+    cookingSelect = {"raw" : "raw"
+                         , "raw (probably still alive)" : "raw (probably alive)"
+                         , "burnt" : "burnt"
+                         , "insanely burnt": "insanely burnt"
+                         , "calcinated" : "calcinated"}
+
+    spicynessSelect = {"0" : "0"
+                           , "1" : "1"
+                           , "2" : "2"
+                           , "3": "MY MOUTH!!!"} 
 
     if request.method == 'POST':
+
+        
+    
         
         if request.FILES.get('image') == None:
             image = user_profile.profileimg
             bio = request.POST['bio']
             location = request.POST['location']
-            favoriteSpicyness = request.POST['favoriteMeat']
+            favoriteOrigin = request.POST['favoriteMeat']
             favoriteCooking = request.POST['favoriteCooking']
-            favoriteOrigin  = request.POST['favoriteRegion']
+            favoriteSpicyness  = request.POST['favoriteRegion']
 
             user_profile.profileimg = image
             user_profile.bio = bio
@@ -345,9 +381,9 @@ def settings(request):
             user_profile.bio = bio
             user_profile.location = location
             user_profile.save()
-        
+        print(originSelect)
         return redirect('settings')
-    return render(request, 'setting.html', {'user_profile': user_profile})
+    return render(request, 'setting.html', context = {'user_profile': user_profile, 'originSelect' : originSelect, 'cookingSelect':cookingSelect,'spicynessSelect': spicynessSelect})
 
 def signup(request):
 
@@ -413,7 +449,6 @@ def post_detail(request, pk):
     post = get_object_or_404(Post, pk=pk)
     user_object = User.objects.get(username=request.user.username)
     comments = post.comments.all()
-    print(comments)
     new_comment = None 
     user_profile = Profile.objects.get(user=user_object)
 
@@ -467,7 +502,7 @@ def delete_comment_api(request, pk):
     comment.delete()
     return JsonResponse({'success': True})
 
-#Fonction pour leq messages privé
+#Fonction pour les messages privé
 class ListThreads(View):
     def get(self, request, *args, **kwargs):
         # Récupérez toutes les conversations avec des messages associés
@@ -584,10 +619,28 @@ def create_thread_ajax(request):
 #Fonction pour le chat room
 def room(request, room_name):
     username = request.user.username
+    user_object = User.objects.get(username=username)
+    user_profile = Profile.objects.get(user=user_object)
     room = get_object_or_404(Room, name=room_name)
+    
+    # Fetch all messages related to the room and include user profile pictures
+    messages = Message.objects.filter(room=room.id).order_by('date')
+    message_list = []
+    for message in messages:
+        message_user = User.objects.get(username=message.user)
+        message_profile = Profile.objects.get(user=message_user)
+        message_list.append({
+            'user': message.user,
+            'value': message.value,
+            'date': message.date,
+            'profile': message_profile.profileimg.url,
+        })
+
     return render(request, 'room.html', {
         'username': username,
+        'profile': user_profile.profileimg.url,
         'room': room,
+        'messages': message_list,
     })
 
 def checkview(request):
@@ -595,26 +648,36 @@ def checkview(request):
         room_name = request.POST['room_name']
         username = request.user.username
 
-        user = User.objects.get(username=username)
-        
         room, created = Room.objects.get_or_create(name=room_name)
 
         return redirect(f'/{room.name}/?username={username}')
     return render(request, 'create_room.html')
-
-    
 
 def send(request):
     message = request.POST['message']
     username = request.user.username
     room_id = request.POST['room_id']
 
-    new_message = Message.objects.create(value= message , user = username , room = room_id)
+    user = User.objects.get(username=username)
+    user_profile = Profile.objects.get(user=user)
+
+    new_message = Message.objects.create(value=message, user=username, room=room_id)
     new_message.save()
     return HttpResponse('Message envoyé avec succès')
-
 
 def getMessages(request, room_name):
     room = Room.objects.get(name=room_name)
     messages = Message.objects.filter(room=room.id).order_by('date')
-    return JsonResponse({"messages": list(messages.values())})
+    message_list = []
+
+    for message in messages:
+        user = User.objects.get(username=message.user)
+        user_profile = Profile.objects.get(user=user)
+        message_list.append({
+            'user': message.user,
+            'value': message.value,
+            'date': message.date,
+            'profile': user_profile.profileimg.url,  # Inclure l'URL de la photo de profil
+        })
+
+    return JsonResponse({"messages": message_list})

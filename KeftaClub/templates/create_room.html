@@ -1,82 +1,33 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body>
-    <style>
-            @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;1,200;1,300;1,400&display=swap');
-            *{
-                margin: 0;
-                padding: 0;
-                font-family: 'Montserrat', sans-serif;
-            }
-            body {
-            margin: 0 ;
-            height: 100vh;
-            max-height: 100vh;
-            padding:0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-           
-            }
-        
-            .container {
-            border: 2px solid #dedede;
-            background-color: #f1f1f1;
-            border-radius: 5px;
-            padding: 20px;
-            margin: 10px 0;
-            width: 450px;
-            }
-        
-            #post-form {
-                width: 100%;
-                display: flex;
-                flex-direction: column;
-            }
-        
-            input{
-            
-                padding: 10PX;
-                margin: 8px 0;
-                padding-left: 20px;
-            
-            
-            
-                padding: 20PX 0;
-                padding-left: 5PX;
-                border: 1px solid #ccc;
-                border-radius: 4px;
-            
-                }
-        
-                input[type=submit] {
-            
-                background-color: #4CAF50;
-                color: white;
-                padding: 14px 20px;
-                margin: 8px 0;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer; 
-                }
-        
-                input[type=submit]:hover {
-                background-color: #45a049;
-                }
-    </style>
+{% extends "_base.html" %}
+{% load static %}
+
+{% block title %}KeftaClub - Create room{% endblock %}
+{% block content %}
+
     <div>
         <h2>Django Chat</h2>
     </div>
-    <div class="container">
+    <!--<div class="container">
         <form id = "post-form" method="POST" action="checkview">
             {% csrf_token %}
             <input type="text" name="room_name" placeholder="Room"/>
             <input type="submit" value="Enter Room">
         </form>
+    </div>-->
+
+    <div class="h-screen flex items-center justify-center">
+        <div class="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
+            <form id = "post-form" class="space-y-6" action="checkview" method="POST">
+                {% csrf_token %}
+                <h5 class="text-xl font-medium text-gray-900 dark:text-white">Kefta Club - Django Chat</h5>
+                <div>
+                    <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Room Name</label>
+                    <input type="text" name="room_name" id="room_name" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="username" required />
+                </div>
+                <input type="submit" value="Enter Room" class="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Enter in your room</input>
+            </form>
+        </div>
     </div>
-</body>
-</html>
+    
+    {% endblock content %}
+

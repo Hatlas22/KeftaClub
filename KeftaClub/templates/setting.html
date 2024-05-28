@@ -1,193 +1,110 @@
+{% extends "_base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="{% static 'assets/images/favicon.png' %}" rel="icon" type="image/png">
-    <title>Settings</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="{% static 'assets/css/icons.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/uikit.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/css/tailwind.css' %}">
-</head>
+{% block title %}KeftaClub - Sign in{% endblock %}
 
-<body>
-
-
-       
+{% block content %}
 
           
 
-            <div class="container m-auto"> 
+<section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16">
+        <div class="bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg p-8 md:p-12 mb-8">
+        
+            <form action="/settings" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
+                
+                    
+                    <div class="col-span-2">
+                        <label for="" class="text-gray-900 dark:text-white text-xl md:text-5xl font-extrabold mb-4">Profile Image</label>
+                        <img class="rounded w-64 h-64" src="{{user_profile.profileimg.url}}" />
+                        <br/>
+                        <input type="file" name="image" value="" class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400">
+                    </div>
 
-                <h1 class="text-2xl leading-none text-gray-900 tracking-tight mt-3"><a href="/">Home</a> / Account Setting for <b>{{user.username}}</b> </h1>
-                <!-- <ul class="mt-5 -mr-3 flex-nowrap lg:overflow-hidden overflow-x-scroll uk-tab">
-                    <li class="uk-active"><a href="#">General</a></li>
-                    <li><a href="#">Profile</a></li>
-                    <li><a href="#">Privacy</a></li>
-                    <li><a href="#">Notification</a></li>
-                    <li><a href="#">Social links</a></li>
-                    <li><a href="#">Billing</a></li>
-                    <li><a href="#">Security</a></li>
-                </ul> -->
-                <br>
-                <hr>
-                <div class="grid lg:grid-cols-3 mt-12 gap-8">
                     <div>
-                        <h3 class="text-xl mb-2"> General</h3>
-                        <p></p>
-                    </div>
-                    <div class="bg-white rounded-md lg:shadow-lg shadow col-span-2">
-                        
-                    <form action="" method="POST" enctype="multipart/form-data">
-                        {% csrf_token %}
-                       <div class="grid grid-cols-2 gap-3 lg:p-6 p-4">
-                           
-                           
-                            <div class="col-span-2">
-                                <label for=""> Profile Image</label>
-                                <img width="100" height="100" src="{{user_profile.profileimg.url}}" />
-                                <input type="file" name="image" value="" class="shadow-none bg-gray-100">
-                            </div>
-                            <div class="col-span-2">
-                                <label for="about">Bio</label>  
-                                <textarea id="about" name="bio" rows="3"  class="shadow-none bg-gray-100">{{user_profile.bio}}</textarea>
-                            </div> 
+                    
+                        <label for="about" class="text-gray-900 dark:text-white text-xl md:text-md font-extrabold mb-4">Bio</label>
+                        <textarea id="about" name="bio" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-green-500 focus:border-green-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Write your bio here...">{{user_profile.bio}}</textarea>
 
-                            <div class="col-span-2">
-                                <label for=""> Location</label>
-                                <input type="text" name="location" value="{{user_profile.location}}" class="shadow-none bg-gray-100">
-                            </div>
-
-                        
-
-                        <div class="col-span-2">
-                            <label for="favoriteMeat">Choose your favorite food origin:</label>
-                            <select id="favoriteMeat" name="favoriteMeat">
-                                <option value="Failed Experiment">Failed Experiment</option>
-                                <option value="Leftovers">Leftovers</option>
-                                <option value="Expired food">Expired food</option>
-                                <option value="Wicked Intention">Wicked Intention</option>
-                            </select>
-                        </div>
-
-                        <div class="col-span-2">
-                            <label for="favoriteCooking">Favorite Cooking</label>
-                            <select id="favoriteCooking" name="favoriteCooking">
-                                <option value="raw">raw</option>
-                                <option value="raw (probably still alive)">raw (probably alive)</option>
-                                <option value="burnt">burnt</option>
-                                <option value="insanely burnt">insanely burnt</option>
-                                <option value="calcinated">calcinated</option>
-                            </select>
-
-                            </div>
-
-                            <div class="col-span-2">
-                                <label for="favoriteRegion">Favorite Spiciness</label>
-                                <select id="favoriteRegion" name="favoriteRegion">
-                                    <option value="0">0</option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">MY MOUTH!!!</option>
-                                </select>
-
-                            </div>
-                            
-                        </div>
-    
-                       <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
-                           <button class="p-2 px-4 rounded bg-gray-50 text-red-500"> <a href="/">Cancel</a> </button>
-                           <button type="submit" class="button bg-blue-700"> Save </button></a>
-                       </div>
-                    </form>
-    
                     </div>
 
-                    <!-- <div>
-                        <h3 class="text-xl mb-2"> Privacy</h3>
-                        <p> </p>
-                    </div>
-                    <div class="bg-white rounded-md lg:shadow-lg shadow lg:p-6 p-4 col-span-2">
+                    <br/>
 
-                    <div class="space-y-3">
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Who can follow me ?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Show my activities ?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox" checked><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Search engines?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="flex justify-between items-center">
-                            <div>
-                                <h4> Allow Commenting?</h4>
-                                <div>  </div>
-                            </div>
-                            <div class="switches-list -mt-8 is-large">
-                                <div class="switch-container">
-                                    <label class="switch"><input type="checkbox"><span class="switch-button"></span> </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div> -->
-    
+                    <div>
+                        <label for="first_name" class="text-gray-900 dark:text-white text-xl md:text-md font-extrabold mb-4">Location</label>
+                        <input type="text" id="first_name" name="location" value="{{user_profile.location}}" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500" placeholder="Where do you live" required />
                     </div>
+
+                    <br/>
+                    <hr>
+                    <br>
+                
+                    <div>
+                        <label for="favoriteMeat" class="text-gray-900 dark:text-white text-xl md:text-md font-extrabold mb-4">Choose your favorite food origin:</label>
+                        <select id="favoriteMeat" name="favoriteMeat" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
+                            <option value="Failed Experiment" {% if user_profile.favoriteOrigin == "Failed Experiment" %}selected{% endif %}>Failed Experiment</option>
+                            <option value="Leftovers" {% if user_profile.favoriteOrigin == "Leftovers" %}selected{% endif %}>Leftovers</option>
+                            <option value="Expired food" {% if user_profile.favoriteOrigin == "Expired food" %}selected{% endif %}>Expired food</option>
+                            <option value="Wicked Intention" {% if user_profile.favoriteOrigin == "Wicked Intention" %}selected{% endif %}>Wicked Intention</option>
+                        </select>
+                    </div>
+
+
+                    <br>
+                    
+                    <div>
+                        <label for="favoriteCooking" class="text-gray-900 dark:text-white text-xl md:text-md font-extrabold mb-4" >Favorite Cooking</label>
+                        <select id="favoriteCooking" name="favoriteCooking" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
+                            <option value="raw" {% if favorite_cooking == "raw" %}selected{% endif %}>raw</option>
+                            <option value="raw (probably still alive)" {% if user_profile.favoriteCooking == "raw (probably still alive)" %}selected{% endif %}>raw (probably alive)</option>
+                            <option value="burnt" {% if user_profile.favoriteCooking == "burnt" %}selected{% endif %}>burnt</option>
+                            <option value="insanely burnt" {% if user_profile.favoriteCooking == "insanely burnt" %}selected{% endif %}>insanely burnt</option>
+                            <option value="calcinated" {% if user_profile.favoriteCooking == "calcinated" %}selected{% endif %}>calcinated</option>
+                        </select>
+                    </div>
+                    
                     <br>
 
+                    <div>
+                        <label for="favoriteRegion" class="text-gray-900 dark:text-white text-xl md:text-md font-extrabold mb-4">Favorite Spiciness</label>
+                        <select id="favoriteRegion" name="favoriteRegion" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500">
+                            <option value="0" {% if user_profile.favoriteSpicyness == "0" %}selected{% endif %}>0</option>
+                            <option value="1" {% if user_profile.favoriteSpicyness == "1" %}selected{% endif %}>1</option>
+                            <option value="2" {% if user_profile.favoriteSpicyness == "2" %}selected{% endif %}>2</option>
+                            <option value="3" {% if user_profile.favoriteSpicyness == "3" %}selected{% endif %}>MY MOUTH!!!</option>
+                        </select>
+                    </div>
+                    
+                    
                 </div>
 
-            </div>
-            
+                <div class="bg-gray-10 p-6 pt-0 flex justify-end space-x-3">
+                    <button class="focus:outline-none ml-3 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-400 dark:hover:bg-red-700 dark:focus:ring-green-800"> <a href="/">Cancel</a> </button>
+                    <button type="submit" class="focus:outline-none ml-3 text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Save</button>
+                </div>
+            </form>
         </div>
-
     </div>
+</section>
+
+{% endblock content %}
+
+{% block js %}
 
 
-    
 
- <!-- Scripts
-    ================================================== -->
-    <script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
-    <script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
-    <script src="{% static 'assets/js/uikit.js' %}"></script>
-    <script src="{% static 'assets/js/simplebar.js' %}"></script>
-    <script src="{% static 'assets/js/custom.js' %}"></script>
+<!-- Scripts
+================================================== -->
+<script src="{% static 'assets/js/tippy.all.min.js' %}"></script>  
+<script src="{% static 'assets/js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'assets/js/uikit.js' %}"></script>
+<script src="{% static 'assets/js/simplebar.js' %}"></script>
+<script src="{% static 'assets/js/custom.js' %}"></script>
 
 
-    <script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
-</body>
+<script src="{% static '../../unpkg.com/ionicons%405.2.3/dist/ionicons.js' %}"></script>
 
-</html>
+
+{% endblock js %}
