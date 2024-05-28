@@ -64,7 +64,6 @@ def nav_bar(request):
         key=lambda x: x["date"],
         reverse=True
     )
-    print(notifications[0])
     return {
         'user_profile': user_profile,
         'followers': followers_list[:4],
