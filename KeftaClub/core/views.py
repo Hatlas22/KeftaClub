@@ -661,7 +661,7 @@ def send(request):
     user = User.objects.get(username=username)
     user_profile = Profile.objects.get(user=user)
 
-    new_message = Message.objects.create(value=message, user=username, room=room_id, profile=user_profile.profileimg.url)
+    new_message = Message.objects.create(value=message, user=username, room=room_id)
     new_message.save()
     return HttpResponse('Message envoyé avec succès')
 
